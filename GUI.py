@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import pyqtSlot
 
 while True:
-            
+
+        #Prediction class, with the model parameters and path     
         class predictor():
             spell = None
             predict_max = 30
@@ -18,6 +19,7 @@ while True:
             stext = ''
             happy_wp_roberta_aac = None
             
+            #Model path and parameters
             def __init__(self):
                 self.prediction_model = "ROBERTA"
                 self.model_name = "roberta-base"
@@ -25,17 +27,20 @@ while True:
                 self.spell = Speller()
                 self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
                 
+            #Function to predict the predictions according to the string    
             def predictNext(self,currentString):
                 self.stext = self.spell.autocorrect_sentence(currentString) + '' + '[MASK]' + ''
                 result = self.happy_wp_roberta_aac.predict_mask(self.stext, top_k = self.predict_max)
                 return result
             
+            #Function for TTS
             def play(self):
                 tts = gTTS((self.stext.replace('[MASK]','')))
                 tts.save('1.wav')
                 play('1.wav')
 
 
+        #Class for the UI layout
         class Ui_Dialog(object):    
             
             pred = predictor()     # instance of predictor class
@@ -91,7 +96,7 @@ while True:
                 self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Text String: "))
                 
             def lineEdit_returnPressed(self):
-                #print(self.lineEdit.text())
+                print(self.lineEdit.text())
                 
                 # add the new piece of text to class variable storing all (previous) text
                 self.text += ' ' + self.lineEdit.text()
@@ -110,17 +115,19 @@ while True:
                 word_df = pd.DataFrame(word_df)
                 df = word_df
                 
-                # print('\n predictions: \n')
-                # print(word_df['token'])
+                print('\n predictions: \n')
+                print(word_df['token'])
                 
                 #put the text predictions to the buttons
                 iNoButton=int(0)
+                print('*******adding new button texts********')
                 for i in self.buttons:
                     for j in i:
                         j.setText(str(word_df['token'].iloc[iNoButton]))
                         iNoButton +=1
                         #print('iNoButton =',iNoButton)
-            
+                        #print(str(word_df['token'].iloc[iNoButton]))
+                    
             def pushButton_clicked(self):
                 self.test_class.set_var(self.lineEdit.text());
                 
@@ -134,7 +141,6 @@ while True:
                 #print('Button no. ' + str(button) + ' was pressed...')
                 print('Button pressed')
                 print(button)
-                
                 print('This is the button in line')
                 
                 # add the new piece of text to class variable storing all (previous) text
@@ -155,6 +161,13 @@ while True:
                 
                 print('\n predictions: \n')
                 print(word_df['token'])
+
+                # put text to the buttons
+                iNoButton=int(0)
+                for i in self.buttons:
+                    for j in i:
+                        j.setText(str(word_df['token'].iloc[iNoButton]))
+                        iNoButton +=1
 
                 #play(str(self.text))
 
