@@ -62,6 +62,11 @@ class Ui_Dialog(object):
         self.lineEdit_2 = QtWidgets.QLineEdit(Dialog)
         self.lineEdit_2.setGeometry(QtCore.QRect(20, 210, 461, 41))
         self.lineEdit_2.setObjectName("lineEdit_2")
+        # self.lineEdit_3 = QtWidgets.QLineEdit(Dialog)
+        # self.lineEdit_3.setGeometry(QtCore.QRect(20, 210, 461, 41))
+        # self.lineEdit_3.setObjectName("lineEdit_3")
+
+
         
         self.buttons = [];
         iNo = 0
@@ -97,6 +102,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Predictive TTS with User Input"))
         self.lineEdit.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
         self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Text String: "))
+        #self.lineEdit_3.setPlaceholderText(_translate("Dialog", "Enter Q to refresh"))
         
     def lineEdit_returnPressed(self):
         print(self.lineEdit.text())
@@ -146,12 +152,6 @@ class Ui_Dialog(object):
         
     def pushButton_3_clicked(self):
         _translate = QtCore.QCoreApplication.translate
-    
-    def refresh(self):
-        Ui_Dialog = QtWidgets.Ui_Dialog()
-        ui = Ui_Dialog()
-        ui.setupUi(Ui_Dialog)
-        Ui_Dialog.repaint()
 
     def choiceButtonClicked(self, button):
         #print('Button no. ' + str(button) + ' was pressed...')
@@ -194,14 +194,6 @@ class Ui_Dialog(object):
 
     def getReopen(self):
         return self.reopen;
-            
-            # print('*****self text =*****', self.text)
-            # if self.text == str('Q'):
-            #     self.refresh()
-
-        #def ExtractText()
-                #print('----', iNoButton, '-----')
-        #play(str(self.text))
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
