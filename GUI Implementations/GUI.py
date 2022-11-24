@@ -22,7 +22,8 @@ class predictor():
     def __init__(self):
         self.prediction_model = "ROBERTA"
         self.model_name = "roberta-base"
-        self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        #self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        self.model_path = "./Transformer Models/modelroberta_AACHPC_2"
         self.spell = Speller()
         self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
         
