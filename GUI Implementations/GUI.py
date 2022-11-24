@@ -42,39 +42,43 @@ class predictor():
         play('1.wav')
 
 
-<<<<<<< Updated upstream:GUI Implementations/GUI.py
+
 #Class for the UI layout
-=======
 class ttsHandler():
     t2s_engine = None
     rate = 0
     voices = None
     volume = 0
+    iMethod= 0 # 0 means pyttsx3 and 1 meand gTTS
     
     def __init__(self):
-        self.t2s_engine = t2s.init()
-        
-        self.rate = self.t2s_engine.getProperty('rate')
-        self.t2s_engine.setProperty('rate', self.rate)
-         
-        self.volume = self.t2s_engine.getProperty('volume')
-        self.t2s_engine.setProperty('volume ', self.volume )
-        
-        print('Current volume is '+str(self.volume ))
-         
-        self.voices = self.t2s_engine.getProperty('voices')    
-        print('Available voices: ')
-        print(str(self.voices))
-        
-        self.t2s_engine.setProperty('voice', self.voices[0].id)
+        if self.iMethod == 0 :
+            self.t2s_engine = t2s.init()
+            
+            self.rate = self.t2s_engine.getProperty('rate')
+            self.t2s_engine.setProperty('rate', self.rate)
+             
+            self.volume = self.t2s_engine.getProperty('volume')
+            self.t2s_engine.setProperty('volume ', self.volume )
+            
+            print('Current volume is '+str(self.volume ))
+             
+            self.voices = self.t2s_engine.getProperty('voices')    
+            print('Available voices: ')
+            print(str(self.voices))
+            
+            self.t2s_engine.setProperty('voice', self.voices[0].id)
+        elif self.iMethod == 1:
+            # google
+            None
+        else:
+            raise Exception('Dont do!')
         
     def speak(self,text):
         self.t2s_engine.say(text)
         self.t2s_engine.runAndWait()
         
 
-
->>>>>>> Stashed changes:GUI.py
 class Ui_Dialog(object):    
     
     pred = predictor()     # instance of predictor class
