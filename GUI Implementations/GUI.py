@@ -8,6 +8,7 @@ from autocorrect import Speller
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
 from PyQt6.QtCore import pyqtSlot
+import pyttsx3 as t2s
 
 #Prediction class, with the model parameters and path     
 class predictor():
@@ -41,10 +42,43 @@ class predictor():
         play('1.wav')
 
 
+<<<<<<< Updated upstream:GUI Implementations/GUI.py
 #Class for the UI layout
+=======
+class ttsHandler():
+    t2s_engine = None
+    rate = 0
+    voices = None
+    volume = 0
+    
+    def __init__(self):
+        self.t2s_engine = t2s.init()
+        
+        self.rate = self.t2s_engine.getProperty('rate')
+        self.t2s_engine.setProperty('rate', self.rate)
+         
+        self.volume = self.t2s_engine.getProperty('volume')
+        self.t2s_engine.setProperty('volume ', self.volume )
+        
+        print('Current volume is '+str(self.volume ))
+         
+        self.voices = self.t2s_engine.getProperty('voices')    
+        print('Available voices: ')
+        print(str(self.voices))
+        
+        self.t2s_engine.setProperty('voice', self.voices[0].id)
+        
+    def speak(self,text):
+        self.t2s_engine.say(text)
+        self.t2s_engine.runAndWait()
+        
+
+
+>>>>>>> Stashed changes:GUI.py
 class Ui_Dialog(object):    
     
     pred = predictor()     # instance of predictor class
+    tts = ttsHandler()     # instance of tts class
     text = ''              # so far inputted text
     iLastButtonPressed = 0 
     reopen = True
@@ -118,6 +152,10 @@ class Ui_Dialog(object):
         self.pred.play();
         # clean upper edit field for next input
         self.lineEdit.setText('')
+        
+        # send to TTS
+        self.tts.speak(self.text)
+        
         # do prediction
         result = self.pred.predictNext(self.text)
         #print('text =', self.text)
@@ -165,6 +203,8 @@ class Ui_Dialog(object):
         self.lineEdit_2.setText(self.text)
         # clean upper edit field for next input
         self.lineEdit.setText('')
+        # send to TTS
+        self.tts.speak(button.text())
         # do prediction
         result = self.pred.predictNext(self.text)
         # Play audio via TTS
