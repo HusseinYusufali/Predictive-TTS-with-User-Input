@@ -36,11 +36,7 @@ class predictor():
     def set_stext(self, currentString):
         self.stext = currentString
 
-    #Function for TTS
-    def play(self):
-        tts = gTTS((self.stext.replace('[MASK]','')))
-        tts.save('1.wav')
-        play('1.wav')
+
 
 
 
@@ -50,10 +46,10 @@ class ttsHandler():
     rate = 0
     voices = None
     volume = 0
-    iMethod= 0 # 0 means pyttsx3 and 1 meand gTTS
+    TTSMethod= 0 # 0 means pyttsx3 and 1 meand gTTS
     
     def __init__(self):
-        if self.iMethod == 0 :
+        if self.TTSMethod == 0: # pyttsx3
             self.t2s_engine = t2s.init()
             
             self.rate = self.t2s_engine.getProperty('rate')
@@ -69,15 +65,28 @@ class ttsHandler():
             print(str(self.voices))
             
             self.t2s_engine.setProperty('voice', self.voices[0].id)
-        elif self.iMethod == 1:
+        elif self.TTSMethod == 1: # gTTS
             # google
             None
         else:
             raise Exception('Dont do!')
+            
         
     def speak(self,text):
-        self.t2s_engine.say(text)
-        self.t2s_engine.runAndWait()
+        if self.TTSMethod == 0: # pyttsx3
+            self.t2s_engine.say(text)
+            self.t2s_engine.runAndWait()
+        elif self.TTSMethod == 1: # gTTS
+            # google
+            tts = gTTS((self.stext.replace('[MASK]','')))
+            tts.save('1.wav')
+            play('1.wav')
+        else:
+            raise Exception('Dont do!')
+            
+    def setTTSMethod(self, iMethod):
+        self.TTSMethod=iMethod
+        
         
 
 class Ui_Dialog(object):    
