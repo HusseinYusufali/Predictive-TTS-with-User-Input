@@ -1,0 +1,4 @@
+.ipynb_checkpoints 
+*.wav
+*desktop.ini
+*Transformer-Models/
