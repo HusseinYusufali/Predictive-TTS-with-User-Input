@@ -22,7 +22,8 @@ class predictor():
     def __init__(self):
         self.prediction_model = "ROBERTA"
         self.model_name = "roberta-base"
-        self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        #self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        self.model_path = "./../Transformer-Models/modelroberta_AACHPC_2"
         self.spell = Speller()
         self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
         
@@ -73,18 +74,24 @@ class Ui_Tab3(object):
         self.lineEdit_5.setGeometry(QtCore.QRect(90, 10, 751, 41))
         self.lineEdit_5.setObjectName("lineEdit_5")
 
-        #self.pushButton = []
-
+        self.pushButtons1 = []
+        
 
         self.pushButton_22 = QtWidgets.QPushButton(self.tab)
         self.pushButton_22.setGeometry(QtCore.QRect(180, 80, 113, 32))
         self.pushButton_22.setObjectName("pushButton_22")
+        self.pushButton_22.clicked.connect(lambda ch, button=self.pushButton_22: self.choiceButtonClicked(button))
+        self.pushButtons1.append(self.pushButton_22)
         self.pushButton_23 = QtWidgets.QPushButton(self.tab)
         self.pushButton_23.setGeometry(QtCore.QRect(180, 110, 113, 32))
         self.pushButton_23.setObjectName("pushButton_23")
+        self.pushButton_23.clicked.connect(lambda ch, button=self.pushButton_23: self.choiceButtonClicked(button))
+        self.pushButtons1.append(self.pushButton_23)
         self.pushButton_24 = QtWidgets.QPushButton(self.tab)
         self.pushButton_24.setGeometry(QtCore.QRect(180, 140, 113, 32))
         self.pushButton_24.setObjectName("pushButton_24")
+        self.pushButton_24.clicked.connect(lambda ch, button=self.pushButton_24: self.choiceButtonClicked(button))
+        self.pushButtons1.append(self.pushButton_24)
         self.pushButton_25 = QtWidgets.QPushButton(self.tab)
         self.pushButton_25.setGeometry(QtCore.QRect(180, 170, 113, 32))
         self.pushButton_25.setObjectName("pushButton_25")
@@ -161,7 +168,7 @@ class Ui_Tab3(object):
         self.pushButton = QtWidgets.QPushButton(self.tab1)
         self.pushButton.setGeometry(QtCore.QRect(410, 60, 113, 32))
         self.pushButton.setObjectName("pushButton")
-        #self.pushButton.clicked.connect(self.choiceButtonClicked(lambda ch, button=self.pushButton: self.choiceButtonClicked(button)))
+        self.pushButton.clicked.connect(lambda ch, button=self.pushButton: self.choiceButtonClicked(button))
         self.pushButton_2 = QtWidgets.QPushButton(self.tab1)
         self.pushButton_2.setGeometry(QtCore.QRect(300, 90, 113, 32))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -431,11 +438,41 @@ class Ui_Tab3(object):
         self.pushButton_76.setText(_translate("Tab3", "PushButton"))
         Tab3.setTabText(Tab3.indexOf(self.tab_2), _translate("Tab3", "Tab 4"))
 
-    def choiceButtonClicked(self, buttonText):
+    def choiceButtonClicked(self, button):
         #print('Button no. ' + str(button) + ' was pressed...')
         print('Button pressed')
-        print(buttonText)
-        print('This is the button in line')
+        print(button)
+        print('This is the button in tab')
+        
+        # add the new piece of text to class variable storing all (previous) text
+        self.text += '' + button.text()
+        # show text in lower line
+        #self.lineEdit_2.setText(self.text)
+        # clean upper edit field for next input
+        #self.lineEdit.setText('')
+        # send to TTS
+        #self.tts.speak(button.text())
+        # do prediction
+        #result = self.pred.predictNext(self.text)
+        # Play audio via TTS
+        #self.pred.set_stext(button.text());
+        #self.pred.play();
+        
+        #index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        #df = pd.DataFrame(result, index=index)
+        #word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        #word_df = word_df.dropna().reset_index(drop=True)
+        #word_df = pd.DataFrame(word_df)
+        #df = word_df
+        
+        #print('\n predictions: \n')
+        #print(word_df['token'])
+
+        iNoButton=int(0)
+        for i in self.pushButtons1:
+            i.setText("")
+            i.setEnabled(False)
+            iNoButton +=1
         
         
 
