@@ -22,8 +22,8 @@ class predictor():
     def __init__(self):
         self.prediction_model = "ROBERTA"
         self.model_name = "roberta-base"
-        #self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
-        self.model_path = "./../Transformer-Models/modelroberta_AACHPC_2"
+        self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        #self.model_path = "./../Transformer-Models/modelroberta_AACHPC_2"
         self.spell = Speller()
         self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
         
@@ -33,26 +33,25 @@ class predictor():
         result = self.happy_wp_roberta_aac.predict_mask(self.stext, top_k = self.predict_max)
         return result
 
-    def set_stext(self, currentString):
-        self.stext = currentString
-
     #Function for TTS
-    def play(self):                  ############### MOVE THIS TO TTS CLASS
+    def play(self):                  ################################## MOVE THIS TO TTS CLASS
         engine = pyttsx3.init()
         engine.startLoop(False)
         engine.say(self.stext.replace('[MASK]',''))
         engine.iterate()
 
+    def set_stext(self, currentString):
+        self.stext = currentString
+
 class Ui_Tab3(object):
 
     pred = predictor()     # instance of predictor class
-    text = ''              # so far inputted text
+    text1 = ''              # so far inputted text
     text2 = ''              # so far inputted text
     text3 = ''              # so far inputted text
     text4 = ''              # so far inputted text on tab 4
     iLastButtonPressed = 0 
     reopen = True
-    global iNo
 
     def setupUi(self, Dialog):
         self.reopen = False
@@ -68,589 +67,535 @@ class Ui_Tab3(object):
         Tab3.setMovable(True)
         Tab3.setTabBarAutoHide(False)
         
-        self.pushButtons = []
+        self.pushButtons1 = []
         self.pushButtons2 = []
         self.pushButtons3 = []
         self.pushButtons4 = []
         
-        ######################################################################
+        ################################################################# FIRST TAB ##################################################################################################################
         # FIRST TAB
         self.tab = QtWidgets.QWidget()
-        self.tab.setObjectName("tab")
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.tab)
-        self.lineEdit_4.setGeometry(QtCore.QRect(100, 280, 751, 41))
-        self.lineEdit_4.setObjectName("lineEdit_4")
-        self.lineEdit_4.returnPressed.connect(self.lineEdit_returnPressed)
-        #self.lineEdit_4.setText('Hello')
-        #self.lineEdit_4.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
-        
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.tab)
-        self.lineEdit_5.setGeometry(QtCore.QRect(90, 10, 751, 41))
-        self.lineEdit_5.setObjectName("lineEdit_5")
-        self.lineEdit_5.returnPressed.connect(self.lineEdit_returnPressed)
-        #self.lineEdit_5.setPlaceholderText(_translate("Dialog", "Text String: "))
+        self.tab.setObjectName("Tab_1")
 
-        self.pushButton_22 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_22.setGeometry(QtCore.QRect(180, 80, 113, 32))
-        self.pushButton_22.setObjectName("pushButton_22")
-        self.pushButton_22.clicked.connect(lambda ch, button=self.pushButton_22: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_22)
+        self.lineEdit_1_1 = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_1_1.setGeometry(QtCore.QRect(90, 10, 751, 41))
+        self.lineEdit_1_1.setObjectName("lineEdit_1_1")
+        self.lineEdit_1_1.returnPressed.connect(self.lineEdit_returnPressed1)
 
-        self.pushButton_23 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_23.setGeometry(QtCore.QRect(180, 110, 113, 32))
-        self.pushButton_23.setObjectName("pushButton_23")
-        self.pushButton_23.clicked.connect(lambda ch, button=self.pushButton_23: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_23)
+        self.lineEdit_1_2 = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_1_2.setGeometry(QtCore.QRect(100, 280, 751, 41))
+        self.lineEdit_1_2.setObjectName("lineEdit_1_2")
+        self.lineEdit_1_2.returnPressed.connect(self.lineEdit_returnPressed1)
 
-        self.pushButton_24 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_24.setGeometry(QtCore.QRect(180, 140, 113, 32))
-        self.pushButton_24.setObjectName("pushButton_24")
-        self.pushButton_24.clicked.connect(lambda ch, button=self.pushButton_24: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_24)
+        self.pushButton_1_1 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_1.setGeometry(QtCore.QRect(180, 80, 113, 32))
+        self.pushButton_1_1.setObjectName("pushButton_1_1")
+        self.pushButton_1_1.clicked.connect(lambda ch, button=self.pushButton_1_1: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_1)
 
-        self.pushButton_25 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_25.setGeometry(QtCore.QRect(180, 170, 113, 32))
-        self.pushButton_25.setObjectName("pushButton_25")
-        self.pushButton_25.clicked.connect(lambda ch, button=self.pushButton_25: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_25)
+        self.pushButton_1_2 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_2.setGeometry(QtCore.QRect(180, 110, 113, 32))
+        self.pushButton_1_2.setObjectName("pushButton_1_2")
+        self.pushButton_1_2.clicked.connect(lambda ch, button=self.pushButton_1_2: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_2)
 
-        self.pushButton_26 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_26.setGeometry(QtCore.QRect(180, 200, 113, 32))
-        self.pushButton_26.setObjectName("pushButton_26")
-        self.pushButton_26.clicked.connect(lambda ch, button=self.pushButton_26: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_26)
+        self.pushButton_1_3 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_3.setGeometry(QtCore.QRect(180, 140, 113, 32))
+        self.pushButton_1_3.setObjectName("pushButton_1_3")
+        self.pushButton_1_3.clicked.connect(lambda ch, button=self.pushButton_1_3: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_3)
 
-        self.pushButton_27 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_27.setGeometry(QtCore.QRect(300, 140, 113, 32))
-        self.pushButton_27.setObjectName("pushButton_27")
-        self.pushButton_27.clicked.connect(lambda ch, button=self.pushButton_27: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_27)
+        self.pushButton_1_4 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_4.setGeometry(QtCore.QRect(180, 170, 113, 32))
+        self.pushButton_1_4.setObjectName("pushButton_1_4")
+        self.pushButton_1_4.clicked.connect(lambda ch, button=self.pushButton_1_4: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_4)
 
-        self.pushButton_28 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_28.setGeometry(QtCore.QRect(300, 200, 113, 32))
-        self.pushButton_28.setObjectName("pushButton_28")
-        self.pushButton_28.clicked.connect(lambda ch, button=self.pushButton_28: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_28)
+        self.pushButton_1_5 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_5.setGeometry(QtCore.QRect(180, 200, 113, 32))
+        self.pushButton_1_5.setObjectName("pushButton_1_5")
+        self.pushButton_1_5.clicked.connect(lambda ch, button=self.pushButton_1_5: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_5)
 
-        self.pushButton_29 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_29.setGeometry(QtCore.QRect(300, 170, 113, 32))
-        self.pushButton_29.setObjectName("pushButton_29")
-        self.pushButton_29.clicked.connect(lambda ch, button=self.pushButton_29: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_29)
+        self.pushButton_1_6 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_6.setGeometry(QtCore.QRect(300, 140, 113, 32))
+        self.pushButton_1_6.setObjectName("pushButton_1_6")
+        self.pushButton_1_6.clicked.connect(lambda ch, button=self.pushButton_1_6: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_6)
 
-        self.pushButton_30 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_30.setGeometry(QtCore.QRect(300, 110, 113, 32))
-        self.pushButton_30.setObjectName("pushButton_30")
-        self.pushButton_30.clicked.connect(lambda ch, button=self.pushButton_30: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_30)
+        self.pushButton_1_7 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_7.setGeometry(QtCore.QRect(300, 200, 113, 32))
+        self.pushButton_1_7.setObjectName("pushButton_1_7")
+        self.pushButton_1_7.clicked.connect(lambda ch, button=self.pushButton_1_7: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_7)
 
-        self.pushButton_31 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_31.setGeometry(QtCore.QRect(300, 80, 113, 32))
-        self.pushButton_31.setObjectName("pushButton_31")
-        self.pushButton_31.clicked.connect(lambda ch, button=self.pushButton_31: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_31)
+        self.pushButton_1_8 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_8.setGeometry(QtCore.QRect(300, 170, 113, 32))
+        self.pushButton_1_8.setObjectName("pushButton_1_8")
+        self.pushButton_1_8.clicked.connect(lambda ch, button=self.pushButton_1_8: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_8)
 
-        self.pushButton_32 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_32.setGeometry(QtCore.QRect(420, 140, 113, 32))
-        self.pushButton_32.setObjectName("pushButton_32")
-        self.pushButton_32.clicked.connect(lambda ch, button=self.pushButton_32: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_32)
+        self.pushButton_1_9 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_9.setGeometry(QtCore.QRect(300, 110, 113, 32))
+        self.pushButton_1_9.setObjectName("pushButton_1_9")
+        self.pushButton_1_9.clicked.connect(lambda ch, button=self.pushButton_1_9: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_9)
 
-        self.pushButton_33 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_33.setGeometry(QtCore.QRect(420, 200, 113, 32))
-        self.pushButton_33.setObjectName("pushButton_33")
-        self.pushButton_33.clicked.connect(lambda ch, button=self.pushButton_33: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_33)
+        self.pushButton_1_10 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_10.setGeometry(QtCore.QRect(300, 80, 113, 32))
+        self.pushButton_1_10.setObjectName("pushButton_1_10")
+        self.pushButton_1_10.clicked.connect(lambda ch, button=self.pushButton_1_10: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_10)
 
-        self.pushButton_34 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_34.setGeometry(QtCore.QRect(420, 170, 113, 32))
-        self.pushButton_34.setObjectName("pushButton_34")
-        self.pushButton_34.clicked.connect(lambda ch, button=self.pushButton_34: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_34)
+        self.pushButton_1_11 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_11.setGeometry(QtCore.QRect(420, 140, 113, 32))
+        self.pushButton_1_11.setObjectName("pushButton_1_11")
+        self.pushButton_1_11.clicked.connect(lambda ch, button=self.pushButton_1_11: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_11)
 
-        self.pushButton_35 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_35.setGeometry(QtCore.QRect(420, 110, 113, 32))
-        self.pushButton_35.setObjectName("pushButton_35")
-        self.pushButton_35.clicked.connect(lambda ch, button=self.pushButton_35: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_35)
+        self.pushButton_1_12 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_12.setGeometry(QtCore.QRect(420, 200, 113, 32))
+        self.pushButton_1_12.setObjectName("pushButton_1_12")
+        self.pushButton_1_12.clicked.connect(lambda ch, button=self.pushButton_1_12: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_12)
 
-        self.pushButton_36 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_36.setGeometry(QtCore.QRect(420, 80, 113, 32))
-        self.pushButton_36.setObjectName("pushButton_36")
-        self.pushButton_36.clicked.connect(lambda ch, button=self.pushButton_36: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_36)
+        self.pushButton_1_13 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_13.setGeometry(QtCore.QRect(420, 170, 113, 32))
+        self.pushButton_1_13.setObjectName("pushButton_1_13")
+        self.pushButton_1_13.clicked.connect(lambda ch, button=self.pushButton_1_13: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_13)
 
-        self.pushButton_37 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_37.setGeometry(QtCore.QRect(540, 140, 113, 32))
-        self.pushButton_37.setObjectName("pushButton_37")
-        self.pushButton_37.clicked.connect(lambda ch, button=self.pushButton_37: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_37)
+        self.pushButton_1_14 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_14.setGeometry(QtCore.QRect(420, 110, 113, 32))
+        self.pushButton_1_14.setObjectName("pushButton_1_14")
+        self.pushButton_1_14.clicked.connect(lambda ch, button=self.pushButton_1_14: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_14)
 
-        self.pushButton_38 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_38.setGeometry(QtCore.QRect(540, 200, 113, 32))
-        self.pushButton_38.setObjectName("pushButton_38")
-        self.pushButton_38.clicked.connect(lambda ch, button=self.pushButton_38: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_38)
+        self.pushButton_1_15 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_15.setGeometry(QtCore.QRect(420, 80, 113, 32))
+        self.pushButton_1_15.setObjectName("pushButton_1_15")
+        self.pushButton_1_15.clicked.connect(lambda ch, button=self.pushButton_1_15: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_15)
 
-        self.pushButton_39 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_39.setGeometry(QtCore.QRect(540, 170, 113, 32))
-        self.pushButton_39.setObjectName("pushButton_39")
-        self.pushButton_39.clicked.connect(lambda ch, button=self.pushButton_39: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_39)
+        self.pushButton_1_16 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_16.setGeometry(QtCore.QRect(540, 140, 113, 32))
+        self.pushButton_1_16.setObjectName("pushButton_1_16")
+        self.pushButton_1_16.clicked.connect(lambda ch, button=self.pushButton_1_16: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_16)
 
-        self.pushButton_40 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_40.setGeometry(QtCore.QRect(540, 110, 113, 32))
-        self.pushButton_40.setObjectName("pushButton_40")
-        self.pushButton_40.clicked.connect(lambda ch, button=self.pushButton_40: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_40)
+        self.pushButton_1_17 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_17.setGeometry(QtCore.QRect(540, 200, 113, 32))
+        self.pushButton_1_17.setObjectName("pushButton_1_17")
+        self.pushButton_1_17.clicked.connect(lambda ch, button=self.pushButton_1_17: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_17)
 
-        self.pushButton_41 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_41.setGeometry(QtCore.QRect(540, 80, 113, 32))
-        self.pushButton_41.setObjectName("pushButton_41")
-        self.pushButton_41.clicked.connect(lambda ch, button=self.pushButton_41: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_41)
+        self.pushButton_1_18 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_18.setGeometry(QtCore.QRect(540, 170, 113, 32))
+        self.pushButton_1_18.setObjectName("pushButton_1_18")
+        self.pushButton_1_18.clicked.connect(lambda ch, button=self.pushButton_1_18: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_18)
 
-        self.pushButton_42 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_42.setGeometry(QtCore.QRect(660, 140, 113, 32))
-        self.pushButton_42.setObjectName("pushButton_42")
-        self.pushButton_42.clicked.connect(lambda ch, button=self.pushButton_42: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_42)
+        self.pushButton_1_19 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_19.setGeometry(QtCore.QRect(540, 110, 113, 32))
+        self.pushButton_1_19.setObjectName("pushButton_1_19")
+        self.pushButton_1_19.clicked.connect(lambda ch, button=self.pushButton_1_19: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_19)
 
-        self.pushButton_43 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_43.setGeometry(QtCore.QRect(660, 200, 113, 32))
-        self.pushButton_43.setObjectName("pushButton_43")
-        self.pushButton_43.clicked.connect(lambda ch, button=self.pushButton_43: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_43)
+        self.pushButton_1_20 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_20.setGeometry(QtCore.QRect(540, 80, 113, 32))
+        self.pushButton_1_20.setObjectName("pushButton_1_20")
+        self.pushButton_1_20.clicked.connect(lambda ch, button=self.pushButton_1_20: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_20)
 
-        self.pushButton_44 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_44.setGeometry(QtCore.QRect(660, 170, 113, 32))
-        self.pushButton_44.setObjectName("pushButton_44")
-        self.pushButton_44.clicked.connect(lambda ch, button=self.pushButton_44: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_44)
+        self.pushButton_1_21 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_21.setGeometry(QtCore.QRect(660, 140, 113, 32))
+        self.pushButton_1_21.setObjectName("pushButton_1_21")
+        self.pushButton_1_21.clicked.connect(lambda ch, button=self.pushButton_1_21: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_21)
 
-        self.pushButton_45 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_45.setGeometry(QtCore.QRect(660, 110, 113, 32))
-        self.pushButton_45.setObjectName("pushButton_45")
-        self.pushButton_45.clicked.connect(lambda ch, button=self.pushButton_45: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_45)
+        self.pushButton_1_22 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_22.setGeometry(QtCore.QRect(660, 200, 113, 32))
+        self.pushButton_1_22.setObjectName("pushButton_1_22")
+        self.pushButton_1_22.clicked.connect(lambda ch, button=self.pushButton_1_22: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_22)
 
-        self.pushButton_46 = QtWidgets.QPushButton(self.tab)
-        self.pushButton_46.setGeometry(QtCore.QRect(660, 80, 113, 32))
-        self.pushButton_46.setObjectName("pushButton_46")
-        self.pushButton_46.clicked.connect(lambda ch, button=self.pushButton_46: self.choiceButtonClicked(button))
-        self.pushButtons.append(self.pushButton_46)
+        self.pushButton_1_23 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_23.setGeometry(QtCore.QRect(660, 170, 113, 32))
+        self.pushButton_1_23.setObjectName("pushButton_1_23")
+        self.pushButton_1_23.clicked.connect(lambda ch, button=self.pushButton_1_23: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_23)
 
-        ######################################################################
-        # second tab
+        self.pushButton_1_24 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_24.setGeometry(QtCore.QRect(660, 110, 113, 32))
+        self.pushButton_1_24.setObjectName("pushButton_1_24")
+        self.pushButton_1_24.clicked.connect(lambda ch, button=self.pushButton_1_24: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_24)
+
+        self.pushButton_1_25 = QtWidgets.QPushButton(self.tab)
+        self.pushButton_1_25.setGeometry(QtCore.QRect(660, 80, 113, 32))
+        self.pushButton_1_25.setObjectName("pushButton_46")
+        self.pushButton_1_25.clicked.connect(lambda ch, button=self.pushButton_1_25: self.choiceButtonClicked1(button))
+        self.pushButtons1.append(self.pushButton_1_25)
+
+         ################################################################# SECOND TAB ##################################################################################################################
+        # SECOND TAB
         Tab3.addTab(self.tab, "")
         self.tab1 = QtWidgets.QWidget()
-        self.tab1.setObjectName("tab1")
+        self.tab1.setObjectName("Tab_2")
 
+        self.lineEdit_2_1 = QtWidgets.QLineEdit(self.tab1)
+        self.lineEdit_2_1.setGeometry(QtCore.QRect(90, 10, 751, 41))
+        self.lineEdit_2_1.setObjectName("lineEdit_2_1")
+        self.lineEdit_2_1.returnPressed.connect(self.lineEdit_returnPressed2)
 
-        self.pushButton = QtWidgets.QPushButton(self.tab1)
-        self.pushButton.setGeometry(QtCore.QRect(410, 60, 113, 32))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(lambda ch, button=self.pushButton: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton)
+        self.lineEdit_2_2 = QtWidgets.QLineEdit(self.tab1)
+        self.lineEdit_2_2.setGeometry(QtCore.QRect(110, 280, 751, 41))
+        self.lineEdit_2_2.setObjectName("lineEdit_2_2")
+        self.lineEdit_2_2.returnPressed.connect(self.lineEdit_returnPressed2)
 
-        self.pushButton_2 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_2.setGeometry(QtCore.QRect(300, 90, 113, 32))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.clicked.connect(lambda ch, button=self.pushButton_2: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_2)
+        self.pushButton_2_1 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_1.setGeometry(QtCore.QRect(410, 60, 113, 32))
+        self.pushButton_2_1.setObjectName("pushButton")
+        self.pushButton_2_1.clicked.connect(lambda ch, button=self.pushButton_2_1: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_1)
 
+        self.pushButton_2_2 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_2.setGeometry(QtCore.QRect(300, 90, 113, 32))
+        self.pushButton_2_2.setObjectName("pushButton_2")
+        self.pushButton_2_2.clicked.connect(lambda ch, button=self.pushButton_2_2: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_2)
 
-        self.pushButton_3 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_3.setGeometry(QtCore.QRect(410, 90, 113, 32))
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.clicked.connect(lambda ch, button=self.pushButton_3: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_3)
+        self.pushButton_2_3 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_3.setGeometry(QtCore.QRect(410, 90, 113, 32))
+        self.pushButton_2_3.setObjectName("pushButton_2_3")
+        self.pushButton_2_3.clicked.connect(lambda ch, button=self.pushButton_2_3: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_3)
 
+        self.pushButton_2_4 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_4.setGeometry(QtCore.QRect(520, 90, 113, 32))
+        self.pushButton_2_4.setObjectName("pushButton_2_4")
+        self.pushButton_2_4.clicked.connect(lambda ch, button=self.pushButton_2_4: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_4)
 
-        self.pushButton_4 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_4.setGeometry(QtCore.QRect(520, 90, 113, 32))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.clicked.connect(lambda ch, button=self.pushButton_4: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_4)
+        self.pushButton_2_5 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_5.setGeometry(QtCore.QRect(240, 120, 113, 32))
+        self.pushButton_2_5.setObjectName("pushButton_2_5")
+        self.pushButton_2_5.clicked.connect(lambda ch, button=self.pushButton_2_5: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_5)
 
+        self.pushButton_2_6 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_6.setGeometry(QtCore.QRect(350, 120, 113, 32))
+        self.pushButton_2_6.setObjectName("pushButton_2_6")
+        self.pushButton_2_6.clicked.connect(lambda ch, button=self.pushButton_2_6: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_6)
 
-        self.pushButton_5 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_5.setGeometry(QtCore.QRect(240, 120, 113, 32))
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_5.clicked.connect(lambda ch, button=self.pushButton_5: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_5)
+        self.pushButton_2_7 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_7.setGeometry(QtCore.QRect(460, 120, 113, 32))
+        self.pushButton_2_7.setObjectName("pushButton_2_7")
+        self.pushButton_2_7.clicked.connect(lambda ch, button=self.pushButton_2_7: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_7)
 
+        self.pushButton_2_8 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_8.setGeometry(QtCore.QRect(570, 120, 113, 32))
+        self.pushButton_2_8.setObjectName("pushButton_2_8")
+        self.pushButton_2_8.clicked.connect(lambda ch, button=self.pushButton_2_8: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_8)
 
-        self.pushButton_6 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_6.setGeometry(QtCore.QRect(350, 120, 113, 32))
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.pushButton_6.clicked.connect(lambda ch, button=self.pushButton_6: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_6)
+        self.pushButton_2_9 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_9.setGeometry(QtCore.QRect(400, 150, 113, 32))
+        self.pushButton_2_9.setObjectName("pushButton_2_9")
+        self.pushButton_2_9.clicked.connect(lambda ch, button=self.pushButton_2_9: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_9)
 
+        self.pushButton_2_10 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_10.setGeometry(QtCore.QRect(180, 150, 113, 32))
+        self.pushButton_2_10.setObjectName("pushButton_2_10")
+        self.pushButton_2_10.clicked.connect(lambda ch, button=self.pushButton_2_10: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_10)
 
-        self.pushButton_7 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_7.setGeometry(QtCore.QRect(460, 120, 113, 32))
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_7.clicked.connect(lambda ch, button=self.pushButton_7: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_7)
+        self.pushButton_2_11 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_11.setGeometry(QtCore.QRect(510, 150, 113, 32))
+        self.pushButton_2_11.setObjectName("pushButton_2_11")
+        self.pushButton_2_11.clicked.connect(lambda ch, button=self.pushButton_2_11: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_11)
 
+        self.pushButton_2_12 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_12.setGeometry(QtCore.QRect(290, 150, 113, 32))
+        self.pushButton_2_12.setObjectName("pushButton_2_12")
+        self.pushButton_2_12.clicked.connect(lambda ch, button=self.pushButton_2_12: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_12)
 
-        self.pushButton_8 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_8.setGeometry(QtCore.QRect(570, 120, 113, 32))
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.pushButton_8.clicked.connect(lambda ch, button=self.pushButton_8: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_8)
+        self.pushButton_2_14 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_14.setGeometry(QtCore.QRect(620, 150, 113, 32))
+        self.pushButton_2_14.setObjectName("pushButton_2_14")
+        self.pushButton_2_14.clicked.connect(lambda ch, button=self.pushButton_2_14: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_14)
 
+        self.pushButton_2_13 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_13.setGeometry(QtCore.QRect(460, 180, 113, 32))
+        self.pushButton_2_13.setObjectName("pushButton_2_13")
+        self.pushButton_2_13.clicked.connect(lambda ch, button=self.pushButton_2_13: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_13)
 
-        self.pushButton_9 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_9.setGeometry(QtCore.QRect(400, 150, 113, 32))
-        self.pushButton_9.setObjectName("pushButton_9")
-        self.pushButton_9.clicked.connect(lambda ch, button=self.pushButton_9: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_9)
+        self.pushButton_2_15 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_15.setGeometry(QtCore.QRect(240, 180, 113, 32))
+        self.pushButton_2_15.setObjectName("pushButton_2_15")
+        self.pushButton_2_15.clicked.connect(lambda ch, button=self.pushButton_2_15: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_15)
 
+        self.pushButton_2_16 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_16.setGeometry(QtCore.QRect(570, 180, 113, 32))
+        self.pushButton_2_16.setObjectName("pushButton_2_16")
+        self.pushButton_2_16.clicked.connect(lambda ch, button=self.pushButton_2_16: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_16)
 
-        self.pushButton_10 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_10.setGeometry(QtCore.QRect(180, 150, 113, 32))
-        self.pushButton_10.setObjectName("pushButton_10")
-        self.pushButton_10.clicked.connect(lambda ch, button=self.pushButton_10: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_10)
+        self.pushButton_2_17 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_17.setGeometry(QtCore.QRect(350, 180, 113, 32))
+        self.pushButton_2_17.setObjectName("pushButton_2_17")
+        self.pushButton_2_17.clicked.connect(lambda ch, button=self.pushButton_2_17: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_17)
 
+        self.pushButton_2_18 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_18.setGeometry(QtCore.QRect(520, 210, 113, 32))
+        self.pushButton_2_18.setObjectName("pushButton_2_18")
+        self.pushButton_2_18.clicked.connect(lambda ch, button=self.pushButton_2_18: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_18)
 
-        self.pushButton_11 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_11.setGeometry(QtCore.QRect(510, 150, 113, 32))
-        self.pushButton_11.setObjectName("pushButton_11")
-        self.pushButton_11.clicked.connect(lambda ch, button=self.pushButton_11: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_11)
+        self.pushButton_2_19 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_19.setGeometry(QtCore.QRect(300, 210, 113, 32))
+        self.pushButton_2_19.setObjectName("pushButton_2_19")
+        self.pushButton_2_19.clicked.connect(lambda ch, button=self.pushButton_2_19: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_19)
 
+        self.pushButton_2_20 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_20.setGeometry(QtCore.QRect(410, 210, 113, 32))
+        self.pushButton_2_20.setObjectName("pushButton_2_20")
+        self.pushButton_2_20.clicked.connect(lambda ch, button=self.pushButton_2_20: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_20)
 
-        self.pushButton_12 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_12.setGeometry(QtCore.QRect(290, 150, 113, 32))
-        self.pushButton_12.setObjectName("pushButton_12")
-        self.pushButton_12.clicked.connect(lambda ch, button=self.pushButton_12: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_12)
+        self.pushButton_2_21 = QtWidgets.QPushButton(self.tab1)
+        self.pushButton_2_21.setGeometry(QtCore.QRect(410, 240, 113, 32))
+        self.pushButton_2_21.setObjectName("pushButton_2_21")
+        self.pushButton_2_21.clicked.connect(lambda ch, button=self.pushButton_2_21: self.choiceButtonClicked2(button))
+        self.pushButtons2.append(self.pushButton_2_21)
 
-
-        self.pushButton_14 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_14.setGeometry(QtCore.QRect(620, 150, 113, 32))
-        self.pushButton_14.setObjectName("pushButton_14")
-        self.pushButton_14.clicked.connect(lambda ch, button=self.pushButton_14: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_14)
-
-
-        self.pushButton_13 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_13.setGeometry(QtCore.QRect(460, 180, 113, 32))
-        self.pushButton_13.setObjectName("pushButton_13")
-        self.pushButton_13.clicked.connect(lambda ch, button=self.pushButton_13: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_13)
-
-
-        self.pushButton_15 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_15.setGeometry(QtCore.QRect(240, 180, 113, 32))
-        self.pushButton_15.setObjectName("pushButton_15")
-        self.pushButton_15.clicked.connect(lambda ch, button=self.pushButton_15: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_15)
-
-
-        self.pushButton_16 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_16.setGeometry(QtCore.QRect(570, 180, 113, 32))
-        self.pushButton_16.setObjectName("pushButton_16")
-        self.pushButton_16.clicked.connect(lambda ch, button=self.pushButton_16: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_16)
-
-
-        self.pushButton_17 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_17.setGeometry(QtCore.QRect(350, 180, 113, 32))
-        self.pushButton_17.setObjectName("pushButton_17")
-        self.pushButton_17.clicked.connect(lambda ch, button=self.pushButton_17: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_17)
-
-
-        self.pushButton_18 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_18.setGeometry(QtCore.QRect(520, 210, 113, 32))
-        self.pushButton_18.setObjectName("pushButton_18")
-        self.pushButton_18.clicked.connect(lambda ch, button=self.pushButton_18: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_18)
-
-
-        self.pushButton_19 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_19.setGeometry(QtCore.QRect(300, 210, 113, 32))
-        self.pushButton_19.setObjectName("pushButton_19")
-        self.pushButton_19.clicked.connect(lambda ch, button=self.pushButton_19: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_19)
-
-
-        self.pushButton_20 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_20.setGeometry(QtCore.QRect(410, 210, 113, 32))
-        self.pushButton_20.setObjectName("pushButton_20")
-        self.pushButton_20.clicked.connect(lambda ch, button=self.pushButton_20: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_20)
-
-
-        self.pushButton_21 = QtWidgets.QPushButton(self.tab1)
-        self.pushButton_21.setGeometry(QtCore.QRect(410, 240, 113, 32))
-        self.pushButton_21.setObjectName("pushButton_21")
-        self.pushButton_21.clicked.connect(lambda ch, button=self.pushButton_21: self.choiceButtonClicked(button))
-        self.pushButtons2.append(self.pushButton_21)
-
-
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.tab1)
-        self.lineEdit_2.setGeometry(QtCore.QRect(110, 280, 751, 41))
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.lineEdit_2.returnPressed.connect(self.lineEdit_returnPressed)
-
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.tab1)
-        self.lineEdit_3.setGeometry(QtCore.QRect(90, 10, 751, 41))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_3.returnPressed.connect(self.lineEdit_returnPressed)
-
-        ######################################################################
-        # NEXT TAB
+        ################################################################# THIRD TAB ##################################################################################################################
+        # THIRD TAB
         Tab3.addTab(self.tab1, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
-        self.lineEdit_6 = QtWidgets.QLineEdit(self.tab_3)
-        self.lineEdit_6.setGeometry(QtCore.QRect(360, 370, 241, 41))
-        self.lineEdit_6.setObjectName("lineEdit_6")
-        self.lineEdit_6.returnPressed.connect(self.lineEdit_returnPressed)
+        
+        self.lineEdit_3_1 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_3_1.setGeometry(QtCore.QRect(360, 10, 221, 41))
+        self.lineEdit_3_1.setObjectName("lineEdit_3_2")
+        self.lineEdit_3_1.returnPressed.connect(self.lineEdit_returnPressed3)
 
-        self.lineEdit_7 = QtWidgets.QLineEdit(self.tab_3)
-        self.lineEdit_7.setGeometry(QtCore.QRect(360, 10, 221, 41))
-        self.lineEdit_7.setObjectName("lineEdit_7")
-        self.lineEdit_7.returnPressed.connect(self.lineEdit_returnPressed)
+        self.lineEdit_3_2 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_3_2.setGeometry(QtCore.QRect(360, 370, 241, 41))
+        self.lineEdit_3_2.setObjectName("lineEdit_3_1")
+        self.lineEdit_3_2.returnPressed.connect(self.lineEdit_returnPressed3)
 
+        self.pushButton_3_1 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_1.setGeometry(QtCore.QRect(420, 60, 113, 32))
+        self.pushButton_3_1.setObjectName("pushButton_3_1")
+        self.pushButton_3_1.clicked.connect(lambda ch, button=self.pushButton_3_1: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_1)
 
-        self.pushButton_47 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_47.setGeometry(QtCore.QRect(420, 60, 113, 32))
-        self.pushButton_47.setObjectName("pushButton_47")
-        self.pushButton_47.clicked.connect(lambda ch, button=self.pushButton_47: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_47)
+        self.pushButton_3_2 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_2.setGeometry(QtCore.QRect(420, 90, 113, 32))
+        self.pushButton_3_2.setObjectName("pushButton_3_2")
+        self.pushButton_3_2.clicked.connect(lambda ch, button=self.pushButton_3_2: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_2)
 
+        self.pushButton_3_3 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_3.setGeometry(QtCore.QRect(420, 120, 113, 32))
+        self.pushButton_3_3.setObjectName("pushButton_3_3")
+        self.pushButton_3_3.clicked.connect(lambda ch, button=self.pushButton_3_3: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_3)
 
+        self.pushButton_3_4 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_4.setGeometry(QtCore.QRect(420, 150, 113, 32))
+        self.pushButton_3_4.setObjectName("pushButton_3_4")
+        self.pushButton_3_4.clicked.connect(lambda ch, button=self.pushButton_3_4: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_4)
 
-        self.pushButton_48 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_48.setGeometry(QtCore.QRect(420, 90, 113, 32))
-        self.pushButton_48.setObjectName("pushButton_48")
-        self.pushButton_48.clicked.connect(lambda ch, button=self.pushButton_48: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_48)
+        self.pushButton_3_5 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_5.setGeometry(QtCore.QRect(420, 180, 113, 32))
+        self.pushButton_3_5.setObjectName("pushButton_51")
+        self.pushButton_3_5.clicked.connect(lambda ch, button=self.pushButton_3_5: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_5)
 
+        self.pushButton_3_6 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_6.setGeometry(QtCore.QRect(420, 210, 113, 32))
+        self.pushButton_3_6.setObjectName("pushButton_52")
+        self.pushButton_3_6.clicked.connect(lambda ch, button=self.pushButton_3_6: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_6)
 
-        self.pushButton_49 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_49.setGeometry(QtCore.QRect(420, 120, 113, 32))
-        self.pushButton_49.setObjectName("pushButton_49")
-        self.pushButton_49.clicked.connect(lambda ch, button=self.pushButton_49: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_49)
+        self.pushButton_3_7 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_7.setGeometry(QtCore.QRect(420, 240, 113, 32))
+        self.pushButton_3_7.setObjectName("pushButton_3_7")
+        self.pushButton_3_7.clicked.connect(lambda ch, button=self.pushButton_3_7: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_7)
 
+        self.pushButton_3_8 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_8.setGeometry(QtCore.QRect(420, 270, 113, 32))
+        self.pushButton_3_8.setObjectName("pushButton_3_8")
+        self.pushButton_3_8.clicked.connect(lambda ch, button=self.pushButton_3_8: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_8)
 
-        self.pushButton_50 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_50.setGeometry(QtCore.QRect(420, 150, 113, 32))
-        self.pushButton_50.setObjectName("pushButton_50")
-        self.pushButton_50.clicked.connect(lambda ch, button=self.pushButton_50: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_50)
+        self.pushButton_3_9 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_9.setGeometry(QtCore.QRect(420, 300, 113, 32))
+        self.pushButton_3_9.setObjectName("pushButton_3_9")
+        self.pushButton_3_9.clicked.connect(lambda ch, button=self.pushButton_3_9: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_9)
 
-
-        self.pushButton_51 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_51.setGeometry(QtCore.QRect(420, 180, 113, 32))
-        self.pushButton_51.setObjectName("pushButton_51")
-        self.pushButton_51.clicked.connect(lambda ch, button=self.pushButton_51: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_51)
-
-
-
-        self.pushButton_52 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_52.setGeometry(QtCore.QRect(420, 210, 113, 32))
-        self.pushButton_52.setObjectName("pushButton_52")
-        self.pushButton_52.clicked.connect(lambda ch, button=self.pushButton_52: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_52)
-
-
-        self.pushButton_53 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_53.setGeometry(QtCore.QRect(420, 240, 113, 32))
-        self.pushButton_53.setObjectName("pushButton_53")
-        self.pushButton_53.clicked.connect(lambda ch, button=self.pushButton_53: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_53)
-
-
-        self.pushButton_54 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_54.setGeometry(QtCore.QRect(420, 270, 113, 32))
-        self.pushButton_54.setObjectName("pushButton_54")
-        self.pushButton_54.clicked.connect(lambda ch, button=self.pushButton_54: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_54)
-
-
-        self.pushButton_55 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_55.setGeometry(QtCore.QRect(420, 300, 113, 32))
-        self.pushButton_55.setObjectName("pushButton_55")
-        self.pushButton_55.clicked.connect(lambda ch, button=self.pushButton_55: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_55)
-
-
-        self.pushButton_56 = QtWidgets.QPushButton(self.tab_3)
-        self.pushButton_56.setGeometry(QtCore.QRect(420, 330, 113, 32))
-        self.pushButton_56.setObjectName("pushButton_56")
-        self.pushButton_56.clicked.connect(lambda ch, button=self.pushButton_56: self.choiceButtonClicked(button))
-        self.pushButtons3.append(self.pushButton_56)
+        self.pushButton_3_10 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_3_10.setGeometry(QtCore.QRect(420, 330, 113, 32))
+        self.pushButton_3_10.setObjectName("pushButton_3_10")
+        self.pushButton_3_10.clicked.connect(lambda ch, button=self.pushButton_3_10: self.choiceButtonClicked3(button))
+        self.pushButtons3.append(self.pushButton_3_10)
         
         Tab3.addTab(self.tab_3, "")
 
-        ######################################################################
-        # NEXT TAB (4th tab)
+        ################################################################# FOURTH TAB ##################################################################################################################
+        # FOURTH TAB (4th tab)
 
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
         
-        self.lineEdit_8 = QtWidgets.QLineEdit(self.tab_2)
-        self.lineEdit_8.setGeometry(QtCore.QRect(100, 30, 301, 231))
-        self.lineEdit_8.setObjectName("lineEdit_8")
-        self.lineEdit_8.returnPressed.connect(self.lineEdit_returnPressed4)
-        self.lineEdit_8.setText('hallo')
+        self.lineEdit_4_1 = QtWidgets.QLineEdit(self.tab_2)
+        self.lineEdit_4_1.setGeometry(QtCore.QRect(100, 30, 301, 231))
+        self.lineEdit_4_1.setObjectName("lineEdit_4_1")
+        self.lineEdit_4_1.returnPressed.connect(self.lineEdit_returnPressed4)
         
-        self.lineEdit_9 = QtWidgets.QLineEdit(self.tab_2)
-        self.lineEdit_9.setGeometry(QtCore.QRect(530, 320, 281, 301))
-        self.lineEdit_9.setObjectName("lineEdit_9")
-        self.lineEdit_9.returnPressed.connect(self.lineEdit_returnPressed)
+        self.lineEdit_4_2 = QtWidgets.QLineEdit(self.tab_2)
+        self.lineEdit_4_2.setGeometry(QtCore.QRect(530, 320, 281, 301))
+        self.lineEdit_4_2.setObjectName("lineEdit_4_2")
+        self.lineEdit_4_2.returnPressed.connect(self.lineEdit_returnPressed4)
         
-        self.pushButton_57 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_57.setGeometry(QtCore.QRect(410, 60, 113, 32))
-        self.pushButton_57.setObjectName("pushButton_57")
-        self.pushButton_57.clicked.connect(lambda ch, button=self.pushButton_57: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_57)
+        self.pushButton_4_1 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_1.setGeometry(QtCore.QRect(410, 60, 113, 32))
+        self.pushButton_4_1.setObjectName("pushButton_4_1")
+        self.pushButton_4_1.clicked.connect(lambda ch, button=self.pushButton_4_1: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_1)
 
-        self.pushButton_58 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_58.setGeometry(QtCore.QRect(410, 30, 113, 32))
-        self.pushButton_58.setObjectName("pushButton_58")
-        self.pushButton_58.clicked.connect(lambda ch, button=self.pushButton_58: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_58)
+        self.pushButton_4_2 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_2.setGeometry(QtCore.QRect(410, 30, 113, 32))
+        self.pushButton_4_2.setObjectName("pushButton_4_2")
+        self.pushButton_4_2.clicked.connect(lambda ch, button=self.pushButton_4_2: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_2)
 
-        self.pushButton_59 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_59.setGeometry(QtCore.QRect(410, 120, 113, 32))
-        self.pushButton_59.setObjectName("pushButton_59")
-        self.pushButton_59.clicked.connect(lambda ch, button=self.pushButton_59: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_59)
+        self.pushButton_4_3 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_3.setGeometry(QtCore.QRect(410, 120, 113, 32))
+        self.pushButton_4_3.setObjectName("pushButton_4_3")
+        self.pushButton_4_3.clicked.connect(lambda ch, button=self.pushButton_4_3: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_3)
 
-        self.pushButton_60 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_60.setGeometry(QtCore.QRect(410, 150, 113, 32))
-        self.pushButton_60.setObjectName("pushButton_60")
-        self.pushButton_60.clicked.connect(lambda ch, button=self.pushButton_60: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_60)
+        self.pushButton_4_4 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_4.setGeometry(QtCore.QRect(410, 150, 113, 32))
+        self.pushButton_4_4.setObjectName("pushButton_4_4")
+        self.pushButton_4_4.clicked.connect(lambda ch, button=self.pushButton_4_4: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_4)
 
-        self.pushButton_61 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_61.setGeometry(QtCore.QRect(410, 210, 113, 32))
-        self.pushButton_61.setObjectName("pushButton_61")
-        self.pushButton_61.clicked.connect(lambda ch, button=self.pushButton_61: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_61)
+        self.pushButton_4_5 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_5.setGeometry(QtCore.QRect(410, 210, 113, 32))
+        self.pushButton_4_5.setObjectName("pushButton_4_5")
+        self.pushButton_4_5.clicked.connect(lambda ch, button=self.pushButton_4_5: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_5)
 
-        self.pushButton_62 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_62.setGeometry(QtCore.QRect(410, 180, 113, 32))
-        self.pushButton_62.setObjectName("pushButton_62")
-        self.pushButton_62.clicked.connect(lambda ch, button=self.pushButton_62: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_62)
+        self.pushButton_4_6 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_6.setGeometry(QtCore.QRect(410, 180, 113, 32))
+        self.pushButton_4_6.setObjectName("pushButton_4_6")
+        self.pushButton_4_6.clicked.connect(lambda ch, button=self.pushButton_4_6: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_6)
 
-        self.pushButton_63 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_63.setGeometry(QtCore.QRect(410, 270, 113, 32))
-        self.pushButton_63.setObjectName("pushButton_63")
-        self.pushButton_63.clicked.connect(lambda ch, button=self.pushButton_22: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_63)
+        self.pushButton_4_7 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_7.setGeometry(QtCore.QRect(410, 270, 113, 32))
+        self.pushButton_4_7.setObjectName("pushButton_4_7")
+        self.pushButton_4_7.clicked.connect(lambda ch, button=self.pushButton_4_7: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_7)
 
-        self.pushButton_64 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_64.setGeometry(QtCore.QRect(410, 240, 113, 32))
-        self.pushButton_64.setObjectName("pushButton_64")
-        self.pushButton_64.clicked.connect(lambda ch, button=self.pushButton_64: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_64)
+        self.pushButton_4_8 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_8.setGeometry(QtCore.QRect(410, 240, 113, 32))
+        self.pushButton_4_8.setObjectName("pushButton_4_8")
+        self.pushButton_4_8.clicked.connect(lambda ch, button=self.pushButton_4_8: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_8)
 
-        self.pushButton_65 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_65.setGeometry(QtCore.QRect(410, 90, 113, 32))
-        self.pushButton_65.setObjectName("pushButton_65")
-        self.pushButton_65.clicked.connect(lambda ch, button=self.pushButton_65: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_65)
+        self.pushButton_4_9 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_9.setGeometry(QtCore.QRect(410, 90, 113, 32))
+        self.pushButton_4_9.setObjectName("pushButton_4_9")
+        self.pushButton_4_9.clicked.connect(lambda ch, button=self.pushButton_4_9: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_9)
 
+        self.pushButton_4_10 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_10.setGeometry(QtCore.QRect(410, 300, 113, 32))
+        self.pushButton_4_10.setObjectName("pushButton_4_10")
+        self.pushButton_4_10.clicked.connect(lambda ch, button=self.pushButton_4_10: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_10)
 
-        self.pushButton_66 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_66.setGeometry(QtCore.QRect(410, 300, 113, 32))
-        self.pushButton_66.setObjectName("pushButton_66")
-        self.pushButton_66.clicked.connect(lambda ch, button=self.pushButton_66: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_66)
+        self.pushButton_4_11 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_11.setGeometry(QtCore.QRect(410, 450, 113, 32))
+        self.pushButton_4_11.setObjectName("pushButton_4_11")
+        self.pushButton_4_11.clicked.connect(lambda ch, button=self.pushButton_4_11: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_11)
 
+        self.pushButton_4_12 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_12.setGeometry(QtCore.QRect(410, 360, 113, 32))
+        self.pushButton_4_12.setObjectName("pushButton_4_12")
+        self.pushButton_4_12.clicked.connect(lambda ch, button=self.pushButton_4_12: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_12)
 
-        self.pushButton_67 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_67.setGeometry(QtCore.QRect(410, 450, 113, 32))
-        self.pushButton_67.setObjectName("pushButton_67")
-        self.pushButton_67.clicked.connect(lambda ch, button=self.pushButton_67: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_67)
+        self.pushButton_4_13 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_13.setGeometry(QtCore.QRect(410, 420, 113, 32))
+        self.pushButton_4_13.setObjectName("pushButton_4_13")
+        self.pushButton_4_13.clicked.connect(lambda ch, button=self.pushButton_4_13: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_13)
 
+        self.pushButton_4_14 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_14.setGeometry(QtCore.QRect(410, 540, 113, 32))
+        self.pushButton_4_14.setObjectName("pushButton_4_14")
+        self.pushButton_4_14.clicked.connect(lambda ch, button=self.pushButton_4_14: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_14)
 
-        self.pushButton_68 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_68.setGeometry(QtCore.QRect(410, 360, 113, 32))
-        self.pushButton_68.setObjectName("pushButton_68")
-        self.pushButton_68.clicked.connect(lambda ch, button=self.pushButton_68: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_68)
+        self.pushButton_4_15 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_15.setGeometry(QtCore.QRect(410, 390, 113, 32))
+        self.pushButton_4_15.setObjectName("pushButton_4_15")
+        self.pushButton_4_15.clicked.connect(lambda ch, button=self.pushButton_4_15: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_15)
 
+        self.pushButton_4_16 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_16.setGeometry(QtCore.QRect(410, 330, 113, 32))
+        self.pushButton_4_16.setObjectName("pushButton_4_16")
+        self.pushButton_4_16.clicked.connect(lambda ch, button=self.pushButton_4_16: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_16)
 
-        self.pushButton_69 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_69.setGeometry(QtCore.QRect(410, 420, 113, 32))
-        self.pushButton_69.setObjectName("pushButton_69")
-        self.pushButton_69.clicked.connect(lambda ch, button=self.pushButton_69: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_69)
+        self.pushButton_4_17 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_17.setGeometry(QtCore.QRect(410, 600, 113, 32))
+        self.pushButton_4_17.setObjectName("pushButton_4_18")
+        self.pushButton_4_17.clicked.connect(lambda ch, button=self.pushButton_4_17: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_17)
 
+        self.pushButton_4_18 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_18.setGeometry(QtCore.QRect(410, 510, 113, 32))
+        self.pushButton_4_18.setObjectName("pushButton_4_19")
+        self.pushButton_4_18.clicked.connect(lambda ch, button=self.pushButton_4_18: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_18)
 
-        self.pushButton_70 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_70.setGeometry(QtCore.QRect(410, 540, 113, 32))
-        self.pushButton_70.setObjectName("pushButton_70")
-        self.pushButton_70.clicked.connect(lambda ch, button=self.pushButton_70: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_70)
+        self.pushButton_4_19 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_19.setGeometry(QtCore.QRect(410, 480, 113, 32))
+        self.pushButton_4_19.setObjectName("pushButton_4_20")
+        self.pushButton_4_19.clicked.connect(lambda ch, button=self.pushButton_4_19: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_19)
 
-
-        self.pushButton_71 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_71.setGeometry(QtCore.QRect(410, 390, 113, 32))
-        self.pushButton_71.setObjectName("pushButton_71")
-        self.pushButton_71.clicked.connect(lambda ch, button=self.pushButton_71: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_71)
-
-
-        self.pushButton_72 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_72.setGeometry(QtCore.QRect(410, 330, 113, 32))
-        self.pushButton_72.setObjectName("pushButton_72")
-        self.pushButton_72.clicked.connect(lambda ch, button=self.pushButton_72: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_72)
-
-
-        self.pushButton_73 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_73.setGeometry(QtCore.QRect(410, 600, 113, 32))
-        self.pushButton_73.setObjectName("pushButton_73")
-        self.pushButton_73.clicked.connect(lambda ch, button=self.pushButton_73: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_73)
-
-        self.pushButton_74 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_74.setGeometry(QtCore.QRect(410, 510, 113, 32))
-        self.pushButton_74.setObjectName("pushButton_74")
-        self.pushButton_74.clicked.connect(lambda ch, button=self.pushButton_74: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_74)
-
-        self.pushButton_75 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_75.setGeometry(QtCore.QRect(410, 480, 113, 32))
-        self.pushButton_75.setObjectName("pushButton_75")
-        self.pushButton_75.clicked.connect(lambda ch, button=self.pushButton_75: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_75)
-
-        self.pushButton_76 = QtWidgets.QPushButton(self.tab_2)
-        self.pushButton_76.setGeometry(QtCore.QRect(410, 570, 113, 32))
-        self.pushButton_76.setObjectName("pushButton_76")
-        self.pushButton_76.clicked.connect(lambda ch, button=self.pushButton_76: self.choiceButtonClicked(button))
-        self.pushButtons4.append(self.pushButton_76)
-
-
-        #self.pushButtons = list(enumerate(self.pushButtons, 1))
-        #self.pushButtons.split(',')
-        print("**********", (self.pushButtons))
-
-        print('TYPE')
-        print(type(self.pushButtons))
-
-        #for i in range(len(self.pushButtons)):
-        #     for j in i:
-        #        print(j)
-        #        #j.setText('')
+        self.pushButton_4_20 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_4_20.setGeometry(QtCore.QRect(410, 570, 113, 32))
+        self.pushButton_4_20.setObjectName("pushButton_76")
+        self.pushButton_4_20.clicked.connect(lambda ch, button=self.pushButton_4_20: self.choiceButtonClicked4(button))
+        self.pushButtons4.append(self.pushButton_4_20)
 
         Tab3.addTab(self.tab_2, "")
+
+################################################################## END OF TAB PUSH BUTTONS #########################################################################################################
 
         self.retranslateUi(Tab3)
         Tab3.setCurrentIndex(3)
@@ -658,123 +603,188 @@ class Ui_Tab3(object):
 
     def retranslateUi(self, Tab3):
         _translate = QtCore.QCoreApplication.translate
-        Tab3.setWindowTitle(_translate("Tab3", "TabWidget"))
+        Tab3.setWindowTitle(_translate("Tab3", "Predictive TTS with User Input"))
         Tab3.setToolTip(_translate("Tab3", "<html><head/><body><p>Tab3</p><p><br/></p></body></html>"))
-        self.pushButton_22.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_23.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_24.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_25.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_26.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_27.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_28.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_29.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_30.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_31.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_32.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_33.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_34.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_35.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_36.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_37.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_38.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_39.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_40.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_41.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_42.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_43.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_44.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_45.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_46.setText(_translate("Tab3", "PushButton"))
         Tab3.setTabText(Tab3.indexOf(self.tab), _translate("Tab3", "Tab 1"))
-        self.pushButton.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_2.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_3.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_4.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_5.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_6.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_7.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_8.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_9.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_10.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_11.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_12.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_14.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_13.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_15.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_16.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_17.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_18.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_19.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_20.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_21.setText(_translate("Tab3", "PushButton"))
         Tab3.setTabText(Tab3.indexOf(self.tab1), _translate("Tab3", "Tab 2"))
-        self.pushButton_47.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_48.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_49.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_50.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_51.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_52.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_53.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_54.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_55.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_56.setText(_translate("Tab3", "PushButton"))
         Tab3.setTabText(Tab3.indexOf(self.tab_3), _translate("Tab3", "Tab 3"))
-        self.pushButton_57.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_58.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_59.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_60.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_61.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_62.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_63.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_64.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_65.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_66.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_67.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_68.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_69.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_70.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_71.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_72.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_73.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_74.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_75.setText(_translate("Tab3", "PushButton"))
-        self.pushButton_76.setText(_translate("Tab3", "PushButton"))
         Tab3.setTabText(Tab3.indexOf(self.tab_2), _translate("Tab3", "Tab 4"))
+        self.lineEdit_1_2.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
+        self.lineEdit_1_1.setPlaceholderText(_translate("Dialog", "Text String: "))
+        self.lineEdit_2_2.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
+        self.lineEdit_2_1.setPlaceholderText(_translate("Dialog", "Text String: "))
+        self.lineEdit_3_2.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
+        self.lineEdit_3_1.setPlaceholderText(_translate("Dialog", "Text String: "))
+        self.lineEdit_4_1.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
+        self.lineEdit_4_2.setPlaceholderText(_translate("Dialog", "Text String: "))
 
-    def choiceButtonClicked(self, buttonText):
-        #print('Button no. ' + str(button) + ' was pressed...')
-        print('Button pressed')
-        print(buttonText)
-        print('This is the button in line')
+################################################################## END OF RETRANSLATE #########################################################################################################
 
-    def lineEdit_returnPressed(self):
-        print('Line Edit 1 return pressed')
-        print(self.lineEdit.text())
-        if self.lineEdit.text() == "Q":
-          self.lineEdit_2.setText('')
-          self.text = ''
+    def call_predictNext(self):
+        self.pred.predictNext(self.text)
+
+####################### LINE EDIT TAB1 ##################################################
+    def lineEdit_returnPressed1(self):
+        print(self.lineEdit_1_1.text())
+        if self.lineEdit_1_1.text() == "Q":
+          self.lineEdit_1_2.setText('')
+          self.text1 = ''
           self.reopen = True
           self.dialog.close();
           return;
-          
-    def lineEdit_returnPressed2(self):
-        print('Line Edit 2 return pressed')
-        
-    def lineEdit_returnPressed3(self):
-        print('Line Edit 3 return pressed')
-    
-    def lineEdit_returnPressed4(self):
-        print('Line Edit for tab 4 return pressed')
+
+        print('Line Edit 1 return pressed')
         # add the new piece of text to class variable storing all (previous) text
-        self.text4 += ' ' + self.lineEdit_8.text()
+        self.text1 += ' ' + self.lineEdit_1_1.text()
         # show text in lower line
-        self.lineEdit_9.setText(self.text4)
-        self.pred.set_stext(self.lineEdit_8.text());
+        self.lineEdit_1_2.setText(self.text1)
+        self.pred.set_stext(self.lineEdit_1_2.text())
+        self.pred.play()
+        # clean upper edit field for next input
+        self.lineEdit_1_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text1)
+        #print('text =', self.text)
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = pd.DataFrame(word_df)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+        
+        #put the text predictions to the buttons
+        iNoButton=int(0)
+        for i in self.pushButtons1:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+    def getReopen(self):
+        return self.reopen;
+    
+####################### LINE EDIT TAB2 ##################################################
+    def lineEdit_returnPressed2(self):
+        print(self.lineEdit_2_1.text())
+        if self.lineEdit_2_1.text() == "Q":
+          self.lineEdit_2_2.setText('')
+          self.text2 = ''
+          self.reopen = True
+          self.dialog.close();
+          return;
+
+        print('Line Edit 2 return pressed')
+        # add the new piece of text to class variable storing all (previous) text
+        self.text2 += ' ' + self.lineEdit_2_1.text()
+        # show text in lower line
+        self.lineEdit_2_2.setText(self.text2)
+        self.pred.set_stext(self.lineEdit_2_2.text());
         self.pred.play();
         # clean upper edit field for next input
-        self.lineEdit_8.setText('')
+        self.lineEdit_2_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text2)
+        #print('text =', self.text)
         
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = pd.DataFrame(word_df)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
         
+        print('\n predictions: \n')
+        print(word_df['token'])
+        
+        #put the text predictions to the buttons
+        iNoButton=int(0)
+        for i in self.pushButtons2:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+    def getReopen(self):
+        return self.reopen;
+
+####################### LINE EDIT TAB3 ##################################################
+    def lineEdit_returnPressed3(self):
+        print(self.lineEdit_3_1.text())
+        if self.lineEdit_3_1.text() == "Q":
+          self.lineEdit_3_2.setText('')
+          self.text3 = ''
+          self.reopen = True
+          self.dialog.close();
+          return;
+
+        print('Line Edit 3 return pressed')
+        # add the new piece of text to class variable storing all (previous) text
+        self.text3 += ' ' + self.lineEdit_3_1.text()
+        # show text in lower line
+        self.lineEdit_3_2.setText(self.text3)
+        self.pred.set_stext(self.lineEdit_3_2.text());
+        self.pred.play();
+        # clean upper edit field for next input
+        self.lineEdit_3_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text3)
+        #print('text =', self.text)
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = pd.DataFrame(word_df)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+        
+        #put the text predictions to the buttons
+        iNoButton=int(0)
+        for i in self.pushButtons3:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+    
+    def getReopen(self):
+        return self.reopen;
+
+####################### LINE EDIT TAB4 ##################################################
+    def lineEdit_returnPressed4(self):
+        if self.lineEdit_4_1.text() == "Q":
+          self.lineEdit_4_2.setText('')
+          self.text4 = ''
+          self.reopen = True
+          self.dialog.close();
+          return;
+
+        print('Line Edit for tab 4 return pressed')
+        # add the new piece of text to class variable storing all (previous) text
+        self.text4 += ' ' + self.lineEdit_4_1.text()
+        # show text in lower line
+        self.lineEdit_4_2.setText(self.text4)
+        self.pred.set_stext(self.lineEdit_4_2.text())
+        self.pred.play()
+        # clean upper edit field for next input
+        self.lineEdit_4_1.setText('')
         # do prediction
         result = self.pred.predictNext(self.text4)
         #print('text =', self.text)
@@ -783,6 +793,7 @@ class Ui_Tab3(object):
         df = pd.DataFrame(result, index=index)
         word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
         word_df = word_df.dropna().reset_index(drop=True)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         word_df = pd.DataFrame(word_df)
         df = word_df
         
@@ -800,11 +811,173 @@ class Ui_Tab3(object):
                 i.setEnabled(False)
             iNoButton +=1
 
+    def getReopen(self):
+        return self.reopen;
+
+#################################################### CHOICE BUTTON CLICKED TAB 1 ####################################
+    def choiceButtonClicked1(self, button):
+        #print('Button no. ' + str(button) + ' was pressed...')
+        print('Button pressed')
+        print(button)
+        print('This is the button in line')
+        
+        # add the new piece of text to class variable storing all (previous) text
+        self.text1 += '' + button.text()
+        # show text in lower line
+        self.lineEdit_1_2.setText(self.text1)
+        # clean upper edit field for next input
+        self.lineEdit_1_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text1)
+        # Play audio via TTS
+        self.pred.set_stext(button.text());
+        self.pred.play();
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+
+        iNoButton=int(0)
+        for i in self.pushButtons1:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+##################################################### CHOICE BUTTON CLICKED TAB 2 ####################################
+    def choiceButtonClicked2(self, button):
+        #print('Button no. ' + str(button) + ' was pressed...')
+        print('Button pressed')
+        print(button)
+        print('This is the button in line')
+        
+        # add the new piece of text to class variable storing all (previous) text
+        self.text2 += '' + button.text()
+        # show text in lower line
+        self.lineEdit_2_2.setText(self.text2)
+        # clean upper edit field for next input
+        self.lineEdit_2_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text2)
+        # Play audio via TTS
+        self.pred.set_stext(button.text());
+        self.pred.play();
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+
+        iNoButton=int(0)
+        for i in self.pushButtons2:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+##################################################### CHOICE BUTTON CLICKED TAB 3 ####################################
+    def choiceButtonClicked3(self, button):
+        #print('Button no. ' + str(button) + ' was pressed...')
+        print('Button pressed')
+        print(button)
+        print('This is the button in line')
+        
+        # add the new piece of text to class variable storing all (previous) text
+        self.text3 += '' + button.text()
+        # show text in lower line
+        self.lineEdit_3_2.setText(self.text3)
+        # clean upper edit field for next input
+        self.lineEdit_3_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text3)
+        # Play audio via TTS
+        self.pred.set_stext(button.text());
+        self.pred.play();
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+
+        iNoButton=int(0)
+        for i in self.pushButtons3:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+##################################################### CHOICE BUTTON CLICKED TAB 4 ####################################
+    def choiceButtonClicked4(self, button):
+        #print('Button no. ' + str(button) + ' was pressed...')
+        print('Button pressed')
+        print(button)
+        print('This is the button in line')
+        
+        # add the new piece of text to class variable storing all (previous) text
+        self.text4 += '' + button.text()
+        # show text in lower line
+        self.lineEdit_4_2.setText(self.text4)
+        # clean upper edit field for next input
+        self.lineEdit_4_1.setText('')
+        # do prediction
+        result = self.pred.predictNext(self.text4)
+        # Play audio via TTS
+        self.pred.set_stext(button.text());
+        self.pred.play();
+        
+        index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
+        df = pd.DataFrame(result, index=index)
+        word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
+        word_df = word_df.dropna().reset_index(drop=True)
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        df = word_df
+        
+        print('\n predictions: \n')
+        print(word_df['token'])
+
+        iNoButton=int(0)
+        for i in self.pushButtons4:
+            if iNoButton < word_df['token'].count():
+                i.setText(str(word_df['token'].iloc[iNoButton]))
+                i.setEnabled(True)
+            else:
+                i.setText("")
+                i.setEnabled(False)
+            iNoButton +=1
+
+################### GUI LAYOUT #################################
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Tab3 = QtWidgets.QTabWidget()
     ui = Ui_Tab3()
-    ui.setupUi(Tab3)
-    Tab3.show()
+    while ui.getReopen():
+        ui.setupUi(Tab3)
+        Tab3.show()
+        app.exec()
     sys.exit(app.exec())
