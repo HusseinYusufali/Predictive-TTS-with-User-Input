@@ -638,7 +638,7 @@ class Ui_Tab3(object):
         self.text1 += ' ' + self.lineEdit_1_1.text()
         # show text in lower line
         self.lineEdit_1_2.setText(self.text1)
-        self.pred.set_stext(self.lineEdit_1_2.text())
+        self.pred.set_stext(self.lineEdit_1_1.text())
         self.pred.play()
         # clean upper edit field for next input
         self.lineEdit_1_1.setText('')
@@ -686,7 +686,7 @@ class Ui_Tab3(object):
         self.text2 += ' ' + self.lineEdit_2_1.text()
         # show text in lower line
         self.lineEdit_2_2.setText(self.text2)
-        self.pred.set_stext(self.lineEdit_2_2.text());
+        self.pred.set_stext(self.lineEdit_2_1.text());
         self.pred.play();
         # clean upper edit field for next input
         self.lineEdit_2_1.setText('')
@@ -734,7 +734,7 @@ class Ui_Tab3(object):
         self.text3 += ' ' + self.lineEdit_3_1.text()
         # show text in lower line
         self.lineEdit_3_2.setText(self.text3)
-        self.pred.set_stext(self.lineEdit_3_2.text());
+        self.pred.set_stext(self.lineEdit_3_1.text());
         self.pred.play();
         # clean upper edit field for next input
         self.lineEdit_3_1.setText('')
@@ -781,7 +781,7 @@ class Ui_Tab3(object):
         self.text4 += ' ' + self.lineEdit_4_1.text()
         # show text in lower line
         self.lineEdit_4_2.setText(self.text4)
-        self.pred.set_stext(self.lineEdit_4_2.text())
+        self.pred.set_stext(self.lineEdit_4_1.text())
         self.pred.play()
         # clean upper edit field for next input
         self.lineEdit_4_1.setText('')
