@@ -822,7 +822,7 @@ class Ui_Tab3(object):
         print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
-        self.text1 += '' + button.text()
+        self.text1 += ' ' + button.text()
         # show text in lower line
         self.lineEdit_1_2.setText(self.text1)
         # clean upper edit field for next input
@@ -852,7 +852,6 @@ class Ui_Tab3(object):
                 i.setText("")
                 i.setEnabled(False)
             iNoButton +=1
-
 ##################################################### CHOICE BUTTON CLICKED TAB 2 ####################################
     def choiceButtonClicked2(self, button):
         #print('Button no. ' + str(button) + ' was pressed...')
@@ -861,7 +860,7 @@ class Ui_Tab3(object):
         print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
-        self.text2 += '' + button.text()
+        self.text2 += ' ' + button.text()
         # show text in lower line
         self.lineEdit_2_2.setText(self.text2)
         # clean upper edit field for next input
@@ -900,7 +899,7 @@ class Ui_Tab3(object):
         print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
-        self.text3 += '' + button.text()
+        self.text3 += ' ' + button.text()
         # show text in lower line
         self.lineEdit_3_2.setText(self.text3)
         # clean upper edit field for next input
@@ -939,7 +938,7 @@ class Ui_Tab3(object):
         print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
-        self.text4 += '' + button.text()
+        self.text4 += ' ' + button.text()
         # show text in lower line
         self.lineEdit_4_2.setText(self.text4)
         # clean upper edit field for next input
