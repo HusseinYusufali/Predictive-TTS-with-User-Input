@@ -48,9 +48,9 @@ class predictor():
 
 class Ui_Tab3(object):
     pred = predictor()     # instance of predictor class
-    global start
+    global start_program
     ######################## TIMER STARTS ##################################################### 
-    start = time.time()
+    start_program = time.time()
     text1 = ''              # so far inputted text
     text2 = ''              # so far inputted text
     text3 = ''              # so far inputted text
@@ -871,6 +871,10 @@ class Ui_Tab3(object):
                 i.setText("")
                 i.setEnabled(False)
             iNoButton +=1
+######################### CSV LOGGER FUNCTION ########################
+    # def pd_to_csv(self):
+    #     df = pd.DataFrame(DataTable)
+    #     df.to_csv('DataTable_PerButtonClicked.csv', index=False)
 
 ################################################# RESET FUNCTION IF USER ENTERS 'Q' ##################################################   
     def reset(self):
@@ -907,23 +911,18 @@ class Ui_Tab3(object):
             i+=1
         self.count = 0
 
-        stop = time.time()
+        utterance_stop = time.time()
 
-        duration = stop - start
+        global duration_per_utterance
+        duration_per_utterance = utterance_stop - start_program
 
-        print('########## DURATION ############', duration)
+        print('########## DURATION ############', duration_per_utterance)
 
         global words_per_minute
-        words_per_minute = ((int(number_of_words) / duration)*60)
+        words_per_minute = ((int(number_of_words) / duration_per_utterance)*60)
         print('######### WPM #############', words_per_minute)
 
         print('############ ACCURACY ############', accuracy)
-
-        DataTable = []
-        print('##############', self.text1, accuracy, words_per_minute, number_of_words)
-        DataTable.append({'Text':self.text1, 'Accuracy':round(accuracy, 4), 'Number of words in utterance':number_of_words, 'Words Per Minute':round(words_per_minute, 0)})
-        df = pd.DataFrame(DataTable)
-        df.to_csv('DataTable.csv', index=False)
 
 #################################################### CHOICE BUTTON CLICKED TAB 1 ####################################
     def button_clicked_1(self):
@@ -932,6 +931,7 @@ class Ui_Tab3(object):
         print('###### TEXT ###########', self.text1)
             
     def choiceButtonClicked1(self, button):
+        start_button_clicked = time.time()
         #print('Button no. ' + str(button) + ' was pressed...')
         print('Button pressed')
         print(button)
@@ -979,12 +979,26 @@ class Ui_Tab3(object):
                 i.setEnabled(False)
             iNoButton +=1
 
+        stop_button_clicked = time.time()
+        global button_clicked_duration
+        button_clicked_duration = stop_button_clicked - start_button_clicked
+
+        print('Button Clicked Duration', button_clicked_duration)
+
+        global DataTable
+        i = 0
+        DataTable = [] 
+        while i<10:    
+            DataTable.append({'Text':self.text1, 'Predictions Selected':(self.count + 1), 'Accuracy':round(accuracy, 4), 'Number of words in utterance':number_of_words, 'Duration for button clicks':button_clicked_duration, 'Text':self.text1})
+            df = pd.DataFrame(DataTable)
+            df.to_csv('DataTable_PerButtonClicked.csv', index=False)
+            i += 1
+
 ##################################################### CHOICE BUTTON CLICKED TAB 2 ####################################
     def button_clicked_2(self):
         self.count += 1
         print('Button pressed', self.count)
         print('###### TEXT ###########', self.text2)
-   
    
     def choiceButtonClicked2(self, button):
         #print('Button no. ' + str(button) + ' was pressed...')
@@ -1112,6 +1126,7 @@ class Ui_Tab3(object):
                 i.setEnabled(False)
             iNoButton +=1
 #################################################### CSV LOGGER #################################################
+       
 
 ################### GUI LAYOUT #################################
 if __name__ == "__main__":
