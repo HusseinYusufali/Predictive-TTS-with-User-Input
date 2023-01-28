@@ -12,6 +12,7 @@ import pyttsx3
 import time
 import pandas as pd
 from pathlib import Path
+import logging
 
 #Prediction class, with the model parameters and path     
 class predictor():
@@ -47,10 +48,12 @@ class predictor():
         self.stext = currentString
 
 class Ui_Tab3(object):
+    logging.basicConfig(filename='log-file.log',
+                        filemode='a',
+                        format=' %(name)s :: %(levelname)s :: %(message)s',
+                        level=logging.DEBUG)
+    logging.info('########################### Start Program Participant 1 ###########################')
     pred = predictor()     # instance of predictor class
-    global start_program
-    ######################## TIMER STARTS ##################################################### 
-    start_program = time.time()
     text1 = ''              # so far inputted text
     text2 = ''              # so far inputted text
     text3 = ''              # so far inputted text
@@ -710,10 +713,14 @@ class Ui_Tab3(object):
 
 ####################### LINE EDIT TAB1 ##################################################
     def lineEdit_returnPressed1(self):
+        logging.info(self.lineEdit_1_1.text())
         if self.lineEdit_1_1.text() == "Q":
             self.reset()
             return;
     
+        ######################## TIMER STARTS ##################################################### 
+        global start_program
+        start_program = time.time()
         print('Line Edit 1 return pressed')
         # add the new piece of text to class variable storing all (previous) text
         self.text1 += ' ' + self.lineEdit_1_1.text()
@@ -727,6 +734,7 @@ class Ui_Tab3(object):
         result = self.pred.predictNext(self.text1)
         #print('text =', self.text)
         
+  
         index = [i for i in range(1, (self.pred.predict_max + 1), 1)]
         df = pd.DataFrame(result, index=index)
         word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
@@ -735,8 +743,8 @@ class Ui_Tab3(object):
         word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
         
-        print('\n predictions: \n')
-        print(word_df['token'])
+        # print('\n predictions: \n')
+        # print(word_df['token'])
         
         #put the text predictions to the buttons
         iNoButton=int(0)
@@ -871,11 +879,6 @@ class Ui_Tab3(object):
                 i.setText("")
                 i.setEnabled(False)
             iNoButton +=1
-######################### CSV LOGGER FUNCTION ########################
-    # def pd_to_csv(self):
-    #     df = pd.DataFrame(DataTable)
-    #     df.to_csv('DataTable_PerButtonClicked.csv', index=False)
-
 ################################################# RESET FUNCTION IF USER ENTERS 'Q' ##################################################   
     def reset(self):
         self.text1 = ""
@@ -915,27 +918,34 @@ class Ui_Tab3(object):
 
         global duration_per_utterance
         duration_per_utterance = utterance_stop - start_program
-
-        print('########## DURATION ############', duration_per_utterance)
-
         global words_per_minute
-        words_per_minute = ((int(number_of_words) / duration_per_utterance)*60)
-        print('######### WPM #############', words_per_minute)
 
-        print('############ ACCURACY ############', accuracy)
+        # print('########## DURATION ############', duration_per_utterance)
+
+        words_per_minute = ((int(number_of_words) / duration_per_utterance)*60)
+        # print('######### WPM #############', words_per_minute)
+
+        # print('############ ACCURACY ############', accuracy)
+
+        logging.info(f'{accuracy} Accuracy')
+        logging.info(f'{duration_per_utterance} Duration per utterance')
+        logging.info(f'{words_per_minute} words_per_minute')
+        logging.info('New Utterance has been initialised')
 
 #################################################### CHOICE BUTTON CLICKED TAB 1 ####################################
     def button_clicked_1(self):
         self.count += 1
         print('Button pressed', self.count)
         print('###### TEXT ###########', self.text1)
+        logging.info(self.text1)
+        logging.info(f'{number_of_words} Number of words')
             
     def choiceButtonClicked1(self, button):
         start_button_clicked = time.time()
         #print('Button no. ' + str(button) + ' was pressed...')
-        print('Button pressed')
-        print(button)
-        print('This is the button in line')
+        # print('Button pressed')
+        # print(button)
+        # print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
         self.text1 += ' ' + button.text()
@@ -956,15 +966,16 @@ class Ui_Tab3(object):
         word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
         
-        print('\n predictions: \n')
-        print(word_df['token'])
+        # print('\n predictions: \n')
+        # print(word_df['token'])
 
         global number_of_words
         word_list = self.text1.split()
         number_of_words = len(word_list)
-        print('########### NUMBER OF WORDS IN UTTERANCE #########', number_of_words)
+        #print('########### NUMBER OF WORDS IN UTTERANCE #########', number_of_words)
 
-        print('######## SELF.COUNT ########', (self.count + 1))
+        #print('######## SELF.COUNT ########', (self.count + 1))
+        logging.info(f'{self.count} Button Count')
 
         global accuracy
         accuracy = (((self.count + 1) / number_of_words)*100)
@@ -983,16 +994,9 @@ class Ui_Tab3(object):
         global button_clicked_duration
         button_clicked_duration = stop_button_clicked - start_button_clicked
 
-        print('Button Clicked Duration', button_clicked_duration)
+        #print('Button Clicked Duration', button_clicked_duration)
 
-        global DataTable
-        i = 0
-        DataTable = [] 
-        while i<10:    
-            DataTable.append({'Text':self.text1, 'Predictions Selected':(self.count + 1), 'Accuracy':round(accuracy, 4), 'Number of words in utterance':number_of_words, 'Duration for button clicks':button_clicked_duration, 'Text':self.text1})
-            df = pd.DataFrame(DataTable)
-            df.to_csv('DataTable_PerButtonClicked.csv', index=False)
-            i += 1
+        logging.info(f'{button_clicked_duration} Button clicked duration')
 
 ##################################################### CHOICE BUTTON CLICKED TAB 2 ####################################
     def button_clicked_2(self):
@@ -1125,8 +1129,6 @@ class Ui_Tab3(object):
                 i.setText("")
                 i.setEnabled(False)
             iNoButton +=1
-#################################################### CSV LOGGER #################################################
-       
 
 ################### GUI LAYOUT #################################
 if __name__ == "__main__":
