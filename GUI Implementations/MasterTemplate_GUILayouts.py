@@ -26,7 +26,7 @@ class predictor():
     def __init__(self):
         self.prediction_model = "ROBERTA"
         self.model_name = "roberta-base"
-        self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_AACHPC_2"
+        self.model_path = "/Users/husseinyusufali/Desktop/PhD/Main PhD Folder/PhD - Year 2/Technical System Implementation/Predictive TransformerTTS/Transformer Models/modelroberta_TV_Corpus_HPC"
         #self.model_path = "./../Transformer-Models/modelroberta_AACHPC_2"
         self.spell = Speller()
         self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
@@ -48,7 +48,7 @@ class predictor():
         self.stext = currentString
 
 class Ui_Tab3(object):
-    logging.basicConfig(filename='log-file.log',
+    logging.basicConfig(filename='Participant_1_RoBERTa_AAC_Alphabetical_GUI_2_log-file2.log',
                         filemode='a',
                         format='%(asctime)s :: %(name)s :: %(levelname)s :: %(message)s',
                         level=logging.INFO)
@@ -60,6 +60,9 @@ class Ui_Tab3(object):
     text4 = ''              # so far inputted text on tab 4
     iLastButtonPressed = 0 
     reopen = True
+
+    start_time = None
+    stop_time = None
 
     def setupUi(self, Dialog):
         self.reopen = False
@@ -90,6 +93,7 @@ class Ui_Tab3(object):
         self.lineEdit_1_1.setGeometry(QtCore.QRect(90, 10, 751, 41))
         self.lineEdit_1_1.setObjectName("lineEdit_1_1")
         self.lineEdit_1_1.returnPressed.connect(self.lineEdit_returnPressed1)
+        self.lineEdit_1_1.textEdited.connect(lambda ch, lineedit=self.lineEdit_1_1: self.lineEditEdited(lineedit))
 
         self.lineEdit_1_2 = QtWidgets.QLineEdit(self.tab)
         self.lineEdit_1_2.setGeometry(QtCore.QRect(100, 280, 751, 41))
@@ -282,6 +286,7 @@ class Ui_Tab3(object):
         self.lineEdit_2_1.setGeometry(QtCore.QRect(90, 10, 751, 41))
         self.lineEdit_2_1.setObjectName("lineEdit_2_1")
         self.lineEdit_2_1.returnPressed.connect(self.lineEdit_returnPressed2)
+        self.lineEdit_2_1.textEdited.connect(lambda ch, lineedit=self.lineEdit_2_1: self.lineEditEdited(lineedit))
 
         self.lineEdit_2_2 = QtWidgets.QLineEdit(self.tab1)
         self.lineEdit_2_2.setGeometry(QtCore.QRect(110, 280, 751, 41))
@@ -446,6 +451,7 @@ class Ui_Tab3(object):
         self.lineEdit_3_1.setGeometry(QtCore.QRect(360, 10, 221, 41))
         self.lineEdit_3_1.setObjectName("lineEdit_3_2")
         self.lineEdit_3_1.returnPressed.connect(self.lineEdit_returnPressed3)
+        self.lineEdit_3_1.textEdited.connect(lambda ch, lineedit=self.lineEdit_3_1: self.lineEditEdited(lineedit))
 
         self.lineEdit_3_2 = QtWidgets.QLineEdit(self.tab_3)
         self.lineEdit_3_2.setGeometry(QtCore.QRect(360, 370, 241, 41))
@@ -534,6 +540,7 @@ class Ui_Tab3(object):
         self.lineEdit_4_1.setGeometry(QtCore.QRect(100, 30, 301, 231))
         self.lineEdit_4_1.setObjectName("lineEdit_4_1")
         self.lineEdit_4_1.returnPressed.connect(self.lineEdit_returnPressed4)
+        self.lineEdit_4_1.textEdited.connect(lambda ch, lineedit=self.lineEdit_4_1: self.lineEditEdited(lineedit))
         
         self.lineEdit_4_2 = QtWidgets.QLineEdit(self.tab_2)
         self.lineEdit_4_2.setGeometry(QtCore.QRect(530, 320, 281, 301))
@@ -707,7 +714,6 @@ class Ui_Tab3(object):
         self.lineEdit_4_1.setPlaceholderText(_translate("Dialog", "Enter your text string here: "))
         self.lineEdit_4_2.setPlaceholderText(_translate("Dialog", "Text String: "))
 
-
 ################################################################## END OF RETRANSLATE #########################################################################################################
     def call_predictNext(self):
         self.pred.predictNext(self.text)
@@ -717,12 +723,12 @@ class Ui_Tab3(object):
         logging.info(self.lineEdit_1_1.text())
         if self.lineEdit_1_1.text() == "Q":
             global utterance_stop
-            utterance_stop = time.time()
+            self.stop_time = time.time()
             self.reset()
+            global duration_per_utterance
+            duration_per_utterance = self.stop_time - self.start_time
+            self.start_time = None
         else:
-            global start_program
-            start_program = time.time()
-            ######################## TIMER STARTS ##################################################### 
             #print('Line Edit 1 return pressed')
             # add the new piece of text to class variable storing all (previous) text
             self.text1 += ' ' + self.lineEdit_1_1.text()
@@ -741,7 +747,7 @@ class Ui_Tab3(object):
             word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
             word_df = word_df.dropna().reset_index(drop=True)
             word_df = pd.DataFrame(word_df)
-            #word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+            word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
             df = word_df
             
             # print('\n predictions: \n')
@@ -758,15 +764,16 @@ class Ui_Tab3(object):
                     i.setEnabled(False)
                 iNoButton +=1
 
-
 ####################### LINE EDIT TAB2 ##################################################
     def lineEdit_returnPressed2(self):
+        logging.info(self.lineEdit_1_2.text())
         if self.lineEdit_2_1.text() == "Q":
-            self.reset()
             global utterance_stop
-            utterance_stop = time.time()
+            self.stop_time = time.time()
             self.reset()
-            return;
+            global duration_per_utterance
+            duration_per_utterance = self.stop_time - self.start_time
+            self.start_time = None
         else:
             global start_program
             start_program = time.time()
@@ -791,8 +798,8 @@ class Ui_Tab3(object):
             word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
             df = word_df
             
-            print('\n predictions: \n')
-            print(word_df['token'])
+            # print('\n predictions: \n')
+            # print(word_df['token'])
             
             #put the text predictions to the buttons
             iNoButton=int(0)
@@ -807,12 +814,14 @@ class Ui_Tab3(object):
 
 ####################### LINE EDIT TAB3 ##################################################
     def lineEdit_returnPressed3(self):
+        logging.info(self.lineEdit_3_1.text())
         if self.lineEdit_3_1.text() == "Q":
-            self.reset()
             global utterance_stop
-            utterance_stop = time.time()
-            return;
-
+            self.stop_time = time.time()
+            self.reset()
+            global duration_per_utterance
+            duration_per_utterance = self.stop_time - self.start_time
+            self.start_time = None
         else:    
             #print('Line Edit 3 return pressed')
             global start_program
@@ -837,8 +846,8 @@ class Ui_Tab3(object):
             word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
             df = word_df
             
-            print('\n predictions: \n')
-            print(word_df['token'])
+            # print('\n predictions: \n')
+            # print(word_df['token'])
             
             #put the text predictions to the buttons
             iNoButton=int(0)
@@ -853,12 +862,14 @@ class Ui_Tab3(object):
 
 ####################### LINE EDIT TAB4 ##################################################
     def lineEdit_returnPressed4(self):
+        logging.info(self.lineEdit_4_1.text())
         if self.lineEdit_4_1.text() == "Q":
             global utterance_stop
-            utterance_stop = time.time()
+            self.stop_time = time.time()
             self.reset()
-            return;
-
+            global duration_per_utterance
+            duration_per_utterance = self.stop_time - self.start_time
+            self.start_time = None
         else:
             #print('Line Edit for tab 4 return pressed')
             global start_program
@@ -883,8 +894,8 @@ class Ui_Tab3(object):
             word_df = pd.DataFrame(word_df)
             df = word_df
             
-            print('\n predictions: \n')
-            print(word_df['token'])
+            # print('\n predictions: \n')
+            # print(word_df['token'])
             
             #put the text predictions to the buttons
             iNoButton=int(0)
@@ -898,6 +909,7 @@ class Ui_Tab3(object):
                 iNoButton +=1
 ################################################# RESET FUNCTION IF USER ENTERS 'Q' ##################################################   
     def reset(self):
+        self.stop_time = time.time()
         self.text1 = ""
         self.text2 = ""
         self.text3 = ""
@@ -931,40 +943,24 @@ class Ui_Tab3(object):
             i+=1
         self.count = 0
 
-        global duration_per_utterance
-        duration_per_utterance = utterance_stop - start_program
         global words_per_minute
-        duration_per_utterance = round(duration_per_utterance, 2)
+        duration_per_utterance = self.stop_time - self.start_time
+        words_per_minute = ((int(self.number_of_words) / duration_per_utterance)*60)
+        words_per_minute = round(words_per_minute, 3)
 
-        # print('########## DURATION ############', duration_per_utterance)
-
-        words_per_minute = ((int(number_of_words) / duration_per_utterance)*60)
-        words_per_minute = round(words_per_minute, 2)
-
-        #print('######### WPM #############', words_per_minute)
-
-        # print('############ ACCURACY ############', accuracy)
-
-        logging.info(f'{accuracy} Accuracy')
         logging.info(f'{duration_per_utterance} Duration per utterance')
-        logging.info(f'{words_per_minute} words_per_minute')
+        logging.info(f'{accuracy} Accuracy')
+        logging.info(f'{words_per_minute} Words Per Minute')
         logging.info('New Utterance has been initialised')
 
 #################################################### CHOICE BUTTON CLICKED TAB 1 ####################################
     def button_clicked_1(self):
         self.count += 1
-        print('Button pressed', self.count)
-        print('###### TEXT ###########', self.text1)
         logging.info(self.text1)
-        logging.info(f'{number_of_words} Number of words')
+        logging.info(f'{self.number_of_words} Number of words')
             
     def choiceButtonClicked1(self, button):
         start_button_clicked = time.time()
-        #print('Button no. ' + str(button) + ' was pressed...')
-        # print('Button pressed')
-        # print(button)
-        # print('This is the button in line')
-        
         # add the new piece of text to class variable storing all (previous) text
         self.text1 += ' ' + button.text()
         # show text in lower line
@@ -981,7 +977,7 @@ class Ui_Tab3(object):
         df = pd.DataFrame(result, index=index)
         word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
         word_df = word_df.dropna().reset_index(drop=True)
-        #word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
         
         # print('\n predictions: \n')
@@ -989,14 +985,15 @@ class Ui_Tab3(object):
 
         global number_of_words
         word_list = self.text1.split()
-        number_of_words = len(word_list)
+        self.number_of_words = len(word_list)
+        #print('NOW', self.number_of_words)
         #print('########### NUMBER OF WORDS IN UTTERANCE #########', number_of_words)
 
-        #print('######## SELF.COUNT ########', (self.count + 1))
-        logging.info(f'{self.count} Button Count')
+        print('######## SELF.COUNT ########', (self.count + 1))
+        logging.info(f'{self.count + 1} Button Count')
 
         global accuracy
-        accuracy = (((self.count + 1) / number_of_words)*100)
+        accuracy = (((self.count + 1) / self.number_of_words)*100)
         accuracy = round(accuracy, 2)
 
         iNoButton=int(0)
@@ -1012,22 +1009,22 @@ class Ui_Tab3(object):
         stop_button_clicked = time.time()
         global button_clicked_duration
         button_clicked_duration = stop_button_clicked - start_button_clicked
+        logging.info(f'{button_clicked_duration} Button clicked duration')
 
         #print('Button Clicked Duration', button_clicked_duration)
-
-        logging.info(f'{button_clicked_duration} Button clicked duration')
 
 ##################################################### CHOICE BUTTON CLICKED TAB 2 ####################################
     def button_clicked_2(self):
         self.count += 1
-        print('Button pressed', self.count)
-        print('###### TEXT ###########', self.text2)
+        logging.info(self.text2)
+        logging.info(f'{self.number_of_words} Number of words')
    
     def choiceButtonClicked2(self, button):
+        start_button_clicked = time.time()
         #print('Button no. ' + str(button) + ' was pressed...')
-        print('Button pressed')
-        print(button)
-        print('This is the button in line')
+        # print('Button pressed')
+        # print(button)
+        # print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
         self.text2 += ' ' + button.text()
@@ -1048,8 +1045,20 @@ class Ui_Tab3(object):
         #word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
         
-        print('\n predictions: \n')
-        print(word_df['token'])
+        global number_of_words
+        word_list = self.text2.split()
+        self.number_of_words = len(word_list)
+        #print('########### NUMBER OF WORDS IN UTTERANCE #########', number_of_words)
+
+        #print('######## SELF.COUNT ########', (self.count + 1))
+        logging.info(f'{self.count} Button Count')
+
+        global accuracy
+        accuracy = (((self.count + 1) / self.number_of_words)*100)
+        accuracy = round(accuracy, 2)
+
+        # print('\n predictions: \n')
+        # print(word_df['token'])
 
         iNoButton=int(0)
         for i in self.pushButtons2:
@@ -1061,17 +1070,26 @@ class Ui_Tab3(object):
                 i.setEnabled(False)
             iNoButton +=1
 
+        stop_button_clicked = time.time()
+        global button_clicked_duration
+        button_clicked_duration = stop_button_clicked - start_button_clicked
+
+        #print('Button Clicked Duration', button_clicked_duration)
+
+        logging.info(f'{button_clicked_duration} Button clicked duration')
+
 ##################################################### CHOICE BUTTON CLICKED TAB 3 ####################################
     def button_clicked_3(self):
         self.count += 1
-        print('Button pressed', self.count)
-        print('###### TEXT ###########', self.text3)
+        logging.info(self.text3)
+        logging.info(f'{self.number_of_words} Number of words')
     
     def choiceButtonClicked3(self, button):
         #print('Button no. ' + str(button) + ' was pressed...')
-        print('Button pressed')
-        print(button)
-        print('This is the button in line')
+        start_button_clicked = time.time()
+        # print('Button pressed')
+        # print(button)
+        # print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
         self.text3 += ' ' + button.text()
@@ -1089,11 +1107,23 @@ class Ui_Tab3(object):
         df = pd.DataFrame(result, index=index)
         word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
         word_df = word_df.dropna().reset_index(drop=True)
-        #word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
+
+        global number_of_words
+        word_list = self.text3.split()
+        self.number_of_words = len(word_list)
+        #print('########### NUMBER OF WORDS IN UTTERANCE #########', number_of_words)
+
+        #print('######## SELF.COUNT ########', (self.count + 1))
+        logging.info(f'{self.count} Button Count')
         
-        print('\n predictions: \n')
-        print(word_df['token'])
+        global accuracy
+        accuracy = (((self.count + 1) / self.number_of_words)*100)
+        accuracy = round(accuracy, 2)
+
+        # print('\n predictions: \n')
+        # print(word_df['token'])
 
         iNoButton=int(0)
         for i in self.pushButtons3:
@@ -1105,17 +1135,26 @@ class Ui_Tab3(object):
                 i.setEnabled(False)
             iNoButton +=1
 
+        stop_button_clicked = time.time()
+        global button_clicked_duration
+        button_clicked_duration = stop_button_clicked - start_button_clicked
+
+        #print('Button Clicked Duration', button_clicked_duration)
+
+        logging.info(f'{button_clicked_duration} Button clicked duration')
+
 ##################################################### CHOICE BUTTON CLICKED TAB 4 ####################################
     def button_clicked_4(self):
         self.count += 1
-        print('Button pressed', self.count)
-        print('###### TEXT ###########', self.text4)
+        logging.info(self.text4)
+        logging.info(f'{self.number_of_words} Number of words')
     
     def choiceButtonClicked4(self, button):
+        start_button_clicked = time.time()
         #print('Button no. ' + str(button) + ' was pressed...')
-        print('Button pressed')
-        print(button)
-        print('This is the button in line')
+        # print('Button pressed')
+        # print(button)
+        # print('This is the button in line')
         
         # add the new piece of text to class variable storing all (previous) text
         self.text4 += ' ' + button.text()
@@ -1133,11 +1172,21 @@ class Ui_Tab3(object):
         df = pd.DataFrame(result, index=index)
         word_df = df[df["token"].str.contains("[!#$%&\'()*+,-./\:;<=>?@[\\]^_`{|}~»Â�…॥।1234567890]") == False]
         word_df = word_df.dropna().reset_index(drop=True)
-        #word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
+        word_df = word_df.sort_values(by=['token'], ascending=True, key=lambda col: col.str.lower())
         df = word_df
+
+        global number_of_words
+        word_list = self.text4.split()
+        self.number_of_words = len(word_list)
         
-        print('\n predictions: \n')
-        print(word_df['token'])
+        # print('\n predictions: \n')
+        # print(word_df['token'])
+
+        logging.info(f'{self.count} Button Count')
+
+        global accuracy
+        accuracy = (((self.count + 1) / self.number_of_words)*100)
+        accuracy = round(accuracy, 2)
 
         iNoButton=int(0)
         for i in self.pushButtons4:
@@ -1148,6 +1197,18 @@ class Ui_Tab3(object):
                 i.setText("")
                 i.setEnabled(False)
             iNoButton +=1
+
+        stop_button_clicked = time.time()
+        global button_clicked_duration
+        button_clicked_duration = stop_button_clicked - start_button_clicked
+        logging.info(f'{button_clicked_duration} Button clicked duration')
+
+################################ LINE EDITED #####################################################
+    def lineEditEdited(self, lineedit):
+        if (len(lineedit.text()) == 1 and lineedit.text() !="Q"):
+            if self.start_time == None:
+                self.start_time = time.time()
+                print("Start Time: %d\n"%(self.start_time));
 
 ################### GUI LAYOUT #################################
 if __name__ == "__main__":
