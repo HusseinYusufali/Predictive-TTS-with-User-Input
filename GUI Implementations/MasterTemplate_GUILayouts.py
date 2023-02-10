@@ -7,14 +7,25 @@ import pandas as pd
 from autocorrect import Speller
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
-from PyQt6.QtCore import pyqtSlot
+from PyQt6.QtCore import pyqtSlot, QEvent
 import pyttsx3
 import time
 import pandas as pd
 from pathlib import Path
 import logging
 
-#Prediction class, with the model parameters and path     
+# class HoverPushButton(QtWidgets.QPushButton):
+#     def __init__(self, arg):
+#         super().__init__(arg)
+#         # Without enabling tracking, mouse is only tracked when a button is pressed
+#         self.setMouseTracking(True)
+
+#     def eventFilter(self, source, event):
+#         if source is self.button and event.type() == QtCore.QEvent.MouseMove:
+#             print("Mouse move:", event.pos().x(), event.pos().y())
+#         return super().eventFilter(source, event)
+
+#Prediction class, with the model parameters and path
 class predictor():
     spell = None
     predict_max = 30
@@ -30,7 +41,7 @@ class predictor():
         #self.model_path = "./../Transformer-Models/modelroberta_AACHPC_2"
         self.spell = Speller()
         self.happy_wp_roberta_aac = HappyWordPrediction(self.prediction_model, self.model_name, self.model_path)
-        
+
     #Function to predict the predictions according to the string    
     def predictNext(self,currentString):
         self.stext = self.spell.autocorrect_sentence(currentString) + '' + '[MASK]' + ''
@@ -104,7 +115,8 @@ class Ui_Tab3(object):
         self.pushButton_1_1.setGeometry(QtCore.QRect(180, 80, 113, 32))
         self.pushButton_1_1.setObjectName("pushButton_1_1")
         self.pushButton_1_1.clicked.connect(lambda ch, button=self.pushButton_1_1: self.choiceButtonClicked1(button))
-        self.pushButton_1_1.clicked.connect(self.button_clicked_1)
+        self.pushButton_1_1.setMouseTracking(True)
+        self.pushButton_1_1.installEventFilter(self.pushButton_1_1)
 
         self.pushButton_1_2 = QtWidgets.QPushButton(self.tab)
         self.pushButton_1_2.setGeometry(QtCore.QRect(180, 110, 113, 32))
@@ -692,10 +704,19 @@ class Ui_Tab3(object):
         Tab3.addTab(self.tab_2, "")
 
 ################################################################## END OF TAB PUSH BUTTONS #########################################################################################################
-
         self.retranslateUi(Tab3)
         Tab3.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(Tab3)
+
+    def eventFilter(self, source, event):
+        if event.type() == QtCore.QEvent.MouseButtonPress:
+            print("You pressed the button")
+            return True
+        elif event.type() == QtCore.QEvent.MouseMove:
+            print('Click me!')
+            return super().eventFilter(source, event)
+
+        return False
 
     def retranslateUi(self, Tab3):
         _translate = QtCore.QCoreApplication.translate
@@ -717,6 +738,9 @@ class Ui_Tab3(object):
 ################################################################## END OF RETRANSLATE #########################################################################################################
     def call_predictNext(self):
         self.pred.predictNext(self.text)
+
+    def onButtonEnter(self):
+        print("Mouse entered the button")
 
 ####################### LINE EDIT TAB1 ##################################################
     def lineEdit_returnPressed1(self):
