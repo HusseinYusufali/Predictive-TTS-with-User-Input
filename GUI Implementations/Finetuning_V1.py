@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 # Set up OpenAI API key
 
-api_key = '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'
+api_key = < >
 
 openai.api_key = api_key
 
