@@ -9,6 +9,7 @@ from sklearn.decomposition import IncrementalPCA
 import random
 from torch.cuda.amp import autocast, GradScaler
 from tqdm import tqdm 
+import numpy as np
 
 
 train_sentences = []
@@ -161,7 +162,7 @@ for layer_num in range(num_layers):
     criterion = torch.nn.CrossEntropyLoss()
 
     layer_model.train()
-    num_epochs = 2
+    num_epochs = 10
     epoch_losses = []  # Store losses for this epoch
     epoch_accuracies = []  # Store accuracies for this epoch
     for epoch in range(num_epochs):
@@ -206,9 +207,6 @@ for layer_num in range(num_layers):
 
         print(f"Layer {layer_num}: Epoch {epoch + 1}, Average Training Loss: {epoch_losses[-1]:.4f}, Average Training Accuracy: {epoch_accuracies[-1]:.4f}") 
 
-        training_losses_per_layer.append(epoch_losses)  # Store the losses for this layer all the epochs
-        training_accuracies_per_layer.append(epoch_accuracies)  # Store the training accuracies for this layer for all the epochs
-
         # Extract hidden representations for the last epoch
         layer_model.eval()
         representations_for_layer = []
@@ -237,23 +235,32 @@ for layer_num in range(num_layers):
                 accuracy = torch.sum(predictions == labels) / torch.sum(labels != -100)
                 test_accuracies_per_layer.append(accuracy.item())
 
+    training_losses_per_layer.append(epoch_losses)  # Store the losses for this layer all the epochs
+    training_accuracies_per_layer.append(epoch_accuracies)  # Store the training accuracies for this layer for all the epochs
     average_test_accuracy = sum(epoch_accuracies) / num_epochs
     average_training_loss_per_layer=sum(epoch_losses) / num_epochs
     training_losses_by_layer.append(average_training_loss_per_layer)
     test_accuracies_by_layer.append(average_test_accuracy)
 
-    print(f"Layer {layer_num}, Average Word Test Accuracy after Training: {average_test_accuracy:.4f}, Average Training Loss: {average_training_loss_per_layer:.4f}")
+    print(f"Layer {layer_num}, Average Word Test Accuracy after Training: {average_test_accuracy:.4f}")
+    print(f"Layer {layer_num}, Training losses by layer: {training_losses_by_layer}")
+    print(f"Layer {layer_num}, Training losses per layer: {training_losses_per_layer}")
 
-print('Training loss curves')
+print('Training loss curve')
+# Extract losses for each epoch from the nested list, handling potential float values
+epoch_losses_per_layer = []
+for layer in training_losses_per_layer:
+    layer_losses = [epoch[0] if isinstance(epoch, list) else epoch for epoch in layer]
+    epoch_losses_per_layer.append(layer_losses)
 plt.figure(figsize=(10, 6))
-for layer_num, average_training_loss_by_layer in enumerate(training_losses_by_layer):
-    plt.plot(average_training_loss_by_layer, label=f'Layer {layer_num}')
+for layer_num, epoch_losses in enumerate(epoch_losses_per_layer):
+    plt.plot(range(1, len(epoch_losses) + 1), epoch_losses, label=f"Layer {layer_num}")
+plt.title('Training Loss per Layer Over Epochs')
 plt.xlabel('Epoch')
-plt.ylabel('Average Training Loss')
-plt.title('Average Training Loss per Layer')
-plt.grid(True)
+plt.ylabel('Training Loss')
 plt.legend()
-plt.savefig('average_training_loss_per_layer.png')
+plt.grid()
+plt.savefig('Trainingloss.png')
 
 # Plot test accuracy for each layer
 print('Test word accuracy curves')
@@ -293,15 +300,17 @@ batch_size_incremental_pca = 2  # Adjust this based on memory availability
 ipca = IncrementalPCA(n_components=n_components, batch_size=batch_size_incremental_pca)
 
 # Create a tqdm progress bar for the Incremental PCA process
-with tqdm(total=layerwise_representations_combined_flat.size(0)) as pbar:
-    pca_result = []
-    for batch_start in range(0, layerwise_representations_combined_flat.size(0), batch_size_incremental_pca):
-        batch_end = min(batch_start + batch_size_incremental_pca, layerwise_representations_combined_flat.size(0))
-        batch = layerwise_representations_combined_flat[batch_start:batch_end]
-        batch_pca_result = ipca.partial_fit(batch)
-        pca_result.append(batch_pca_result)
-        pbar.update(batch_end - batch_start if batch_end <= layerwise_representations_combined_flat.size(0) else layerwise_representations_combined_flat.size(0) - batch_start)
-    pca_result = torch.cat(pca_result, dim=0)
+pca_result = []
+batch_start = 0
+total_batches = np.ceil(layerwise_representations_combined_flat.size(0) / batch_size_incremental_pca)
+# Use tqdm to create a progress bar
+for batch_num in tqdm(range(0, int(total_batches))):
+    batch_end = min(batch_start + batch_size_incremental_pca, layerwise_representations_combined_flat.size(0))
+    batch = layerwise_representations_combined_flat[batch_start:batch_end]
+    ipca.partial_fit(batch)  # Fit the IncrementalPCA on the batch
+    batch_start = batch_end
+# Transform the entire data using the fitted IncrementalPCA
+pca_result = ipca.transform(layerwise_representations_combined_flat)
 
 # Step 6: Visualization with PCA
 print('Visualisation with PCA')
@@ -310,9 +319,6 @@ for layer_num in range(num_layers):
     
     plt.figure(figsize=(12, 8))
     plt.scatter(pca_result_layer[:, 0], pca_result_layer[:, 1])
-    
-    # for i, sentence in enumerate(pca_result_layer):
-    #     plt.annotate(sentence, (pca_result_layer[i, 0], pca_result_layer[i, 1]), fontsize=8, alpha=0.5)
     
     plt.xlabel('Principal Component 1')
     plt.ylabel('Principal Component 2')
